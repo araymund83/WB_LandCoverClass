@@ -1,0 +1,12 @@
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+/data
+/outputs
+/cache
+*.tif
+/inputs
+/outputs
+
+
