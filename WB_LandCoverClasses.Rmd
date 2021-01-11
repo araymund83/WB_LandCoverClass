@@ -2,7 +2,7 @@
 title: "Western Boreal Land Cover Classes"
 author: "Ana Raymundo and Isolde Lane Shaw"
 date: "12/3/2020"
-bibliography : 
+bibliography : references.bib
 output: html_document
 ---
 
