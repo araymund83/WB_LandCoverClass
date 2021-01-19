@@ -1,9 +1,3 @@
-library(magrittr)
-library(sf)
-library(sp)
-library(raster)
-library(reproducible)
-
 bcrzip <- "https://www.birdscanada.org/download/gislab/bcr_terrestrial_shape.zip"
 
 cPath <- "inputs/studyArea/cache"
@@ -13,7 +7,6 @@ targetCRS <- paste("+proj=lcc +lat_1=49 +lat_2=77 +lat_0=0 +lon_0=-95",
 #################################################################################
 ## BCR regions 
 #################################################################################
-
 bcrshp <- Cache(prepInputs,
                 url = bcrzip,
                 cacheRepo = cPath,
@@ -163,3 +156,12 @@ standAgeMap2011 <- Cache(prepInputs,
                              overwrite = TRUE
 )
 
+ABBCURL <- paste0("https://drive.google.com/file/d/",
+"1mW1kyGgy9bxpI7yrAJ7DPe7QJXRx11JI/view?usp=sharing")
+  
+vegClassABBC <-  Cache(prepInputs, 
+                         destinationPath = getPaths()$inputPath,
+                         url = ABBCURL,
+                         fun = "read.csv",
+                         overwrite = TRUE
+)

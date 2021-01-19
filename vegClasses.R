@@ -28,8 +28,8 @@ lccPlot <- lapply(sort(unique(countLCC$bcr)), function(x){
   ggplot(countLCC[countLCC$bcr == x], aes(x= lcc, y = count), group = as.factor(bcr))+
     geom_bar(aes(fill= as.factor(bcr)),
              stat= "identity", position = position_dodge(0.8)) +
-    ggtitle ("Relative frequency of LCC05 classes per BCR") +
-    labs(y = "Relative frequency", x = "LCC class", fill = "BCR") + theme_bw() +
+    ggtitle ("Frequency of LCC05 classes per BCR") +
+    labs(y = "Frequency", x = "LCC class", fill = "BCR") + theme_bw() +
     scale_x_continuous(breaks = seq(from = 1, to = 39, by = 1)) +
     theme(axis.text = element_text(size = 7),
           axis.title = element_text(size = 11, face = "bold")) +
@@ -40,9 +40,9 @@ names(lccPlot) <- bcr
 
 #saving the graph
 lapply(names(lccPlot), 
-       function(x){ggsave(filename = paste0("figures/", x,".png"), 
-                          plot = lccPlot[[x]],
-                          dpi =300)})
+       function(x){ggsave(filename = paste0("figures/lcc/","LCC_BCR", x,".png"), 
+                          plot = lccPlot[[x]], width = 7, height = 5,
+                          dpi =200)})
 
 
 ## proportion plots
@@ -63,9 +63,9 @@ lccpropPlot <- lapply(sort(unique(countLCC$bcr)), function(x){
 names(lccpropPlot) <- bcr
 #saving the graph
 lapply(names(lccpropPlot), 
-       function(x){ggsave(filename = paste0("figures/", x,"prop",".png", sep = ""), 
-                          plot = lccpropPlot[[x]],
-                          dpi =300)})
+       function(x){ggsave(filename = paste0("figures/lcc/", "LCC_BCR", x,"prop",".png", sep = ""), 
+                          plot = lccpropPlot[[x]], width = 7, height = 5,
+                          dpi =200)})
   
 ###BCR6 SPLIT
 
@@ -108,9 +108,9 @@ prov <- unique(countLCC6$prov)
 names(lccprop6Plot) <- prov
 #saving the graph
 lapply(names(lccprop6Plot), 
-       function(x){ggsave(filename = paste0("figures/", x,"prop","bcr6", ".png", sep = ""), 
-                          plot = lccpropPlot[[x]],
-                          dpi =300)})
+       function(x){ggsave(filename = paste0("figures/lcc/","LCC_BCR6_", x,"prop", ".png", sep = ""), 
+                          plot = lccprop6Plot[[x]], width = 7, height = 5,
+                          dpi =200)})
 
 ## select non-forested  LCC classes 
 nonForest <- countLCC6[countLCC6[['lcc']] > 15, ]
@@ -124,13 +124,14 @@ nfprop6Plot <-lapply(sort(unique(countLCC6$prov)), function(x){
   theme(axis.text = element_text(size = 7),
         axis.title = element_text(size = 11, face = "bold")) +
   facet_wrap(~prov, nrow = 2) +
-  scale_fill_manual(values = c("#D2691E","#8B4513", "#A0522D",)) 
+  scale_fill_manual(values = c("#D2691E","#8B4513", "#A0522D")) 
 })
 names(nfprop6Plot) <- prov
 
 lapply(names(nfprop6Plot),
-       function(x) ggsave(paste0("figures/", x,"NFprop","_bcr6", ".png", sep = ""), 
-                                             plot = nfprop6Plot[[x]]))
+       function(x) ggsave(paste0("figures/nonForested/","NF_BCR6", x,"prop",".png", sep = ""), 
+                                             plot = nfprop6Plot[[x]],width = 7, height = 5,
+                                             dpi = 200))
 
 ## Obtain Age for each BCR
 ## fasterize sf objects for all BCR
@@ -151,23 +152,24 @@ countAge[, prop := count/sum(count), by = "bcr"]
 
 countAge$bcr <- as.factor(countAge$bcr)
 
-ageCountPlot <- lapply(sort(unique(countAge$bcr)), function(x){
-    ggplot(countAge[countAge$bcr == x], aes(x= age, y = count), group = as.factor(bcr))+
+agepropPlot <- lapply(sort(unique(countAge$bcr)), function(x){
+    ggplot(countAge[countAge$bcr == x], aes(x= age, y = prop), group = as.factor(bcr))+
       geom_bar(aes(fill= as.factor(bcr)),
                stat= "identity", position = position_dodge(0.8)) +
-      ggtitle ("Stand Age by BCR") +
-      labs(y = "Frequency", x = "Age", fill = "bcr") + theme_bw() +
+      ggtitle ("Stand Age in BCR") +
+      labs(y = "Relative Frequency", x = "Age", fill = "bcr") + theme_bw() +
       theme(axis.text = element_text(size = 7),
             axis.title = element_text(size = 11, face = "bold")) +
     facet_wrap(~bcr, scales = "free") +
     scale_color_manual(values = c("#E69F00", "#56B4E9", "#009E73", "#F0E442"))
   }) 
 
-names(ageCountPlot) <- bcr
+names(agepropPlot) <- bcr
 
 #saving the graph
-lapply(names(ageCountPlot), 
-       function(x) ggsave(filename = paste0("figures/", x,"_age", ".png", sep = ""), 
-                          plot = ageCountPlot[[x]]))
+lapply(names(agepropPlot), 
+       function(x) ggsave(filename = paste0("figures/age/", x,"_age", ".png", sep = ""), 
+                          plot = agepropPlot[[x]], width = 5, height = 3,
+                          dpi = 200))
 
 
