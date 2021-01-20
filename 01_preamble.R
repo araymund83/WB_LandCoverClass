@@ -1,9 +1,3 @@
-library(magrittr)
-library(sf)
-library(sp)
-library(raster)
-library(reproducible)
-
 bcrzip <- "https://www.birdscanada.org/download/gislab/bcr_terrestrial_shape.zip"
 
 cPath <- "inputs/studyArea/cache"
@@ -13,7 +7,6 @@ targetCRS <- paste("+proj=lcc +lat_1=49 +lat_2=77 +lat_0=0 +lon_0=-95",
 #################################################################################
 ## BCR regions 
 #################################################################################
-
 bcrshp <- Cache(prepInputs,
                 url = bcrzip,
                 cacheRepo = cPath,
@@ -50,7 +43,7 @@ studyArea <- reproducible::Cache(postProcess,
                                  provsWB, studyArea= bcrWB, useSAcrs = TRUE,
                                  cacheRepo = cPath, filename2 = NULL, overwrite = TRUE) 
 
-st_write(studyArea, "inputs/studyArea/BCR_WB.shp", driver = "ESRI Shapefile")
+#st_write(studyArea, "inputs/studyArea/BCR_WB.shp", driver = "ESRI Shapefile")
 
 #################################################################################
 ## BCR6 subdivision
@@ -102,27 +95,24 @@ bcr6SKMB <- postProcess(SKMB, studyArea = bcr6SA, useSAcrs = TRUE,
 # st_write(bcr6SKMB, "inputs/studyArea/BCR6/BCR6_SKMB.shp", driver = "ESRI Shapefile")
 # st_write(bcr6NWT, "inputs/studyArea/BCR6/BCR6_NWT.shp", driver = "ESRI Shapefile")
 
+## in order to be able to rasterize, we need to create a numeric column to ID each of the provinces
+## for BCR6
+bcr6SA$ID <- as.numeric(as.factor(bcr6SA$NAME_1))
 
-bcr6SA$Province[bcr6SA$NAME_1 == "Alberta"] <- "AB"
-bcr6SA$Province[bcr6SA$NAME_1 == "British Columbia"] <- "BC"
-bcr6SA$Province[bcr6SA$NAME_1 == "Manitoba"] <- "MB"
-bcr6SA$Province[bcr6SA$NAME_1 == "Saskatchewan"] <- "SK"
-bcr6SA$Province[bcr6SA$NAME_1 == "Northwest Territories"] <- "NWT"
-
-## this sf object has problems when rasterize, that is why geometry is being h
+## In addition, this object has problems when rasterize, that is why geometry is being 
 ## homogenize by using st_cast
-bcr6SA2 <- st_cast(bcr6SA,"MULTIPOLYGON")
+bcr6SA <- st_cast(bcr6SA,"MULTIPOLYGON")
 
 
 #################################################################################
 ## LCC 2005
 #################################################################################
-LCC05 <- reproducible::Cache(prepInputsLCC,year = 2005, 
+LCC05Ras <- reproducible::Cache(prepInputsLCC,year = 2005, 
                              studyArea = studyArea,
                              destinationPath = getPaths()$inputPath)
 ## crop and mask with BCR6
 LCC05_6Ras <- reproducible::Cache(postProcess,
-                                  LCC05, 
+                                  LCC05Ras, 
                                   studyArea = bcr6SA, 
                                   useSAcrs = TRUE)
 
@@ -133,11 +123,45 @@ wetlandzip <- "https://drive.google.com/file/d/1R1AkkD06E-x36cCHWL4U5450mSDu_vD0
 wetlandWB <- Cache(prepInputs,
                 url = wetlandzip,
                 destinationPath = dPath,
+                studyArea = bcrWB,
                 targetFile = "CA_wetlands_post2000.tif",
                 userTags = c("wetlandWB")
                 )
-wetland6 <-  reproducible::Cache(postProcess,
-                                 wetlandWB, 
-                                 studyArea = bcr6SA, 
-                                 useSAcrs = TRUE)
+# wetland6 <-  reproducible::Cache(postProcess,
+#                                  wetlandWB,
+#                                  studyArea = bcr6SA, 
+#                                  useSAcrs = TRUE)
 
+
+#################################################################################
+## Age
+#################################################################################
+standAgeMapURL <- paste0(
+  "ftp://ftp.maps.canada.ca/pub/nrcan_rncan/Forests_Foret/",
+  "canada-forests-attributes_attributs-forests-canada/2011-attributes_attributs-2011/",
+  "NFI_MODIS250m_2011_kNN_Structure_Stand_Age_v1.tif")
+
+# "http://ftp.maps.canada.ca/pub/nrcan_rncan/Forests_Foret/",
+# "canada-forests-attributes_attributs-forests-canada/2001-attributes_attributs-2001/",
+# "NFI_MODIS250m_2001_kNN_Structure_Stand_Age_v1.tif")
+standAgeMap2011 <- Cache(prepInputs, 
+                             destinationPath = getPaths()$inputPath,
+                             url = standAgeMapURL,
+                             fun = "raster::raster",
+                             studyArea = studyArea,
+                             #maskWithRTM = TRUE,
+                             method = "bilinear",
+                             datatype = "INT2U",
+                             filename2 = "standAgeMap.tif", 
+                             overwrite = TRUE
+)
+
+ABBCURL <- paste0("https://drive.google.com/file/d/",
+"1mW1kyGgy9bxpI7yrAJ7DPe7QJXRx11JI/view?usp=sharing")
+  
+vegClassABBC <-  Cache(prepInputs, 
+                         destinationPath = getPaths()$inputPath,
+                         url = ABBCURL,
+                         fun = "read.csv",
+                         overwrite = TRUE
+)

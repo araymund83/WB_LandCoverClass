@@ -33,10 +33,15 @@ library("usefulFuns")
 library("LandR")
 library("data.table")
 library("sf")
+library("sp")
 library("magrittr")
 library("fasterize")
 library("ggplot2")
 library("gridExtra")
+library("RColorBrewer")
+library("tinytex")
+library("citr")
+library("bookdown")
 
 #### setting paths --------------------------------------------------------------
 setPaths(cachePath = file.path(getwd(), "cache"),

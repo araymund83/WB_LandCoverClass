@@ -1,117 +1,193 @@
 ---
 title: "Western Boreal Land Cover Classes"
-author: "Ana Raymundo and Isolde Lane Shaw"
+author: "Steve Cumming, Ana Raymundo and Isolde Lane Shaw"
 date: "12/3/2020"
-bibliography : 
-output: html_document
+output:
+  bookdown::html_document2: 
+  bookdown::pdf_document2: 
+  includes:
+    toc: yes
+    keep_text: true
+    in_header: my_header.tex
+fig_height : 7
+fig_width: 5
+fig_caption: true
+geometry: margin=1in
+fontsize: 11pt
+mainfont: Calibri Light
+latex_engine: xelatex
+citation_package : natbib
+bibliography : references.bib
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = FALSE, fig.align = "center", knit.duplicate.label = "allow")
+#rmarkdown::render("WB_LandCoverClasses_pdf.Rmd", output_format = c("html_document", "pdf_document"))
 ```
 
-## Introduction
 
-Ecosystems are complex and highly integrated entities that are defined by assemblages of species, the physical environment, and the processes that regulate them. Vegetation heterogeneity has a strong influence on the diversity and distribution of other species.  
+\newpage
 
-The complexity and heterogeneity of the land cover and vegetation in the Western Boreal Project area creates challenges in effective modeling due to finite data resources. In order to draw well substantiated conclusions on the diversity and abundance of bird species across the region based upon underlying land cover it is necessary to categorize land cover into broad land cover and age classes to avoid spreading the data on bird/vegetation relationships too thin. A successful example of this comes from the Alberta Biodiversity Monitoring Institute (ABMI), as shown in Figure 1.  
+# Introduction
 
-![Figure 1: Example of Ovenbird data from the ABMI and Boreal Avian Modelling Project (2019)](figures/ABMIExample.jpg)
-
-As the study area of the Western Boreal Project is so large, and therefore includes a large amount of variation in the predominant vegetation communities found, it was decided that the area should be divided into several sub-regions, so as to allow each region to be examined based on the most appropriate land cover classification system. We therefore aimed to:
-
-    1) determine an appropriate manner in which to divide the Western Boreal Project study area into sub-regions for the purposes of the project, and 
-    2) to delineate a set of appropriate, ecologically meaningful land cover categories and age classes for each region. 
+Ecosystems are complex and highly integrated entities defined by assemblages of species, the physical environment, and the processes that regulate them. Vegetation heterogeneity has a strong influence on the diversity and distribution of other species. Structurally complex habitats may provide more niches and different ways of exploiting the environmental resources and thus increase species diversity [@tews2004; @lawler2004].  
 
 
-
-## Methods
-
-We carried out an extensive review of both material describing the vegetation found in the region of interest, and the methods used to classify the different cover classes. Based on this we listed the species and species assemblages described and used for vegetation categorization within potential sub-subregions of interest for this project. As the project is to be focused largely around birds, we was decided that it would make most sense to form sub-regions from grouping Bird Conservation Region (BCR) and Province boundaries within the study area. From this, we determined firstly, which potential BCR/Province groupings had the most similarities and would allow available bird data coverage from the Boreal Avian Modelling Project to be equitably divided, and then, once sub-regions were determined, which land cover classes were most vital in each one.  
-
-Documents reviewed included peer-reviewed articles (Fiera, 2013), reports on Canada's forest inventory (Power & Gillis 2006), provincial inventory system methodology and land classification reports (Forest Management Branch 2006, The Forestry Corp 2004, Ecological Land Classification Working Group 2009, Forest Resources 2006, Ministry of Forests, Lands and NRO 2012 and Saskatchewan Environment 2004), Ecozone and Ecoregion descriptions from the Ecological Framework of Canada (1995) and descriptions of methods used in the Common Attribute Schema (CAS) for Forest Inventories Across Canada (Cosco, J. A, 2020). LCC 2005 data was divided into the sub-regions, and the number of pixels in each of the land cover classes was plotted (SOURCE!!).  
+The complexity and heterogeneity of the land cover and vegetation in the Western Boreal Project area creates challenges in effective modeling due to finite data resources. In order to draw well-substantiated conclusions on the diversity and abundance of bird species across the region based upon the underlying land cover it is necessary to categorize land cover into broad land cover and age classes to avoid spreading the data on bird/vegetation relationships too thin. A successful example of this comes from the Alberta Biodiversity Monitoring Institute (ABMI), as shown in Figure \@ref(fig:oven) [@albertabiodiversitymonitoringinstitute2019]. 
 
 
+```{r oven, fig.cap = "Example of species-habitat associations for Ovenbird from the AMBI and Boreal Avian Modeling Project.", out.width="90%"}
+knitr::include_graphics("figures/ABMIExample.jpg")
+```
 
-## Results
+The Western Boreal Project (WBP) study area is large and it includes a significant heterogeneity of plant communities. However, specific characteristics are shared among the different provinces as established by the Ecological Framework of Canada [-@zotero-20]. Considering this information, it was decided that the study area should be divided into several sub-regions, to allow each region to be examined based on the most appropriate land cover classification system. 
+ We, therefore, aimed to:
+ 
+   *1) Determine an appropriate manner in which to divide the Western Boreal Project study area into sub-regions.* and
+   
+   *2) Delineate a set of appropriate, ecologically meaningful land cover categories and age classes for each sub-region.*
 
-### Sub-regions
+# Methods
 
-It was decided that the most suitable manner of dividing the study area into sub-regions was to maintain the BCR's within the Western Boreal study area as undivided units with the exception of BCR 6, which was split into three sub-regions: the northern area in Yukon, the Northwest Territories and Nunavut, the western area in British Columbia and Alberta, and The eastern area in Saskachewan and Manitoba (Figure 2).  
+We carried out an extensive literature review of both materials describing the vegetation found in the study area and the methods used to classify the different cover classes. The provincial forest inventories allowed us to list the species and species assemblages described and used for vegetation categorization within potential sub-regions of interest for this project, and the age classes most commonly used  [@theforestrycorp2004; @saaskatchewanenvironment2004; @resourceinformationmanagementbranch.albertasustainableresourcedevelopment2005; @forestresources2006; @lisgo2008; @forestmanagementbranch2016]. The studies at national level allowed us to corroborate the hierarchical vegetation categorization of forested lands and the different ways in which stand age is classified [@power2006; @cosco2011].
 
-![Figure 2: Wester Boreal sub-regions selected](figures/WB_LandCoverRegions.PNG)
+As the main objective of the project is focused on birds, we used Bird Conservation Regions (BCR) and the Province boundaries to obtain a sub-region division of the study area [@environmentcanada2013]. From this, we determined firstly, which potential BCR/Province groupings had the most similarities and would allow available bird data coverage from the Boreal Avian Modelling Project (BAM) to be equitably divided, and then, once sub-regions were determined, which land cover classes were most important in each one [@cumming2010; @barker2015].  
 
+The land cover classification classes for each sub-region were obtained by using the Land Cover Classification of Canada 2005 [@latifovic2008]. Stand age was obtained from Natural Resources Canada[@beaudoin2017a].
 
-### Land Cover Classes
+# Results
 
-In each of the sub-regions, the distribution of LCC2005 Land Cover Classes was as follows: 
+## Sub-regions
+The Western Boreal study area was divided into sub-regions following the BCR boundaries, with the exception of BCR 6, given its extention and vegetation hetergenity, it was split into three sub-regions: the northern area in Yukon, the Northwest Territories and Nunavut, the western area in British Columbia and Alberta, and the eastern area in Saskachewan and Manitoba (Fig.\@ref(fig:area)).  
 
-![Histogram of BCR6 LCC2005 Land Cover Classes in British Columbia and Alberta](figures/figures/LCC_BCR6_ABBC.png)
+```{r area, echo = FALSE, fig.cap = "Western Boreal Project sub-regions", out.width="60%"}
+knitr::include_graphics("figures/WB_LandCoverRegions.PNG")
+```
+    
 
+## Land Cover Classes
 
-![Histogram of BCR6 LCC2005 Land Cover Classes in Saskatchewan and Manitoba](figures/figures/LCC_BCR6_MBSK.png)
+In each of the sub-regions, the relative frequency of Land Cover Classes was as follows: 
+```{r bcr4, fig.cap = "Relative frequency of Land Cover Classes for BCR's 4, 7, and 8, respectively.", fig.show ='hold', out.width="60%"}
+par(mar = c(4, 4, .1, .1))
+knitr::include_graphics("figures/lcc/LCC_BCR4prop.png")
+knitr::include_graphics("figures/lcc/LCC_BCR7prop.png")
+knitr::include_graphics("figures/lcc/LCC_BCR8prop.png")
+```
 
+```{r bcr6, fig.cap = "Relative frequency of Land Cover Classes for BCR 6.", out.width="60%"}
+knitr::include_graphics("figures/lcc/LCC_BCR6_ABBCprop.png")
+knitr::include_graphics("figures/lcc/LCC_BCR6_MBSKprop.png")
+knitr::include_graphics("figures/lcc/LCC_BCR6_NWTprop.png")
+```
 
-![Histogram of BCR6 LCC2005 Land Cover Classes in Yukon, the Northwest Territories and Nunavut](figures/figures/LCC_BCR6_NWT.png)
+```{r bcr7, fig.cap = "Relative frequency of Land Cover Classes for BCR 7", out.width="60%"}
+knitr::include_graphics("figures/lcc/LCC_BCR7prop.png")
+```
 
-
-![Histogram of BCR4 LCC2005 Land Cover Classes](figures/figures/LCC_BCR4.png)
-
-
-![Histogram of BCR7 LCC2005 Land Cover Classes](figures/figures/LCC_BCR7.png)
-
-
-![Histogram of BCR8 LCC2005 Land Cover Classes](figures/figures/LCC_BCR8.png)
-
-Based on these histograms, and our literature review of vegetation groupings, we determined that the following categories should be included for each sub-region.
-
-#### BCR6 in Yukon, Northwest Territories and Nunavut
-
-#### BCR6 in British Columbia and Alberta
-
-#### BCR6 in Saskatchewan and Manitoba
-
-#### BCR4
-
-#### BCR7
-
-#### BCR8
-
-
-
-### Ages classes for forested areas
+```{r bcr8, fig.cap = "Relative frequency of Land Cover Classes for BCR 8", out.width="60%"}
+knitr::include_graphics("figures/lcc/LCC_BCR8prop.png")
+```
 
 
+Based on the relative frequency of land cover classes and our literature review of vegetation groupings, we determined that the following categories should be included for each sub-region.
 
-## Bibliography
+```{r table}
+# ABBCURL <- paste0("https://drive.google.com/file/d/",
+# "1mW1kyGgy9bxpI7yrAJ7DPe7QJXRx11JI/view?usp=sharing")
+#   
+# vegClassABBC <-  reproducible::prepInputs( 
+#                                       destinationPath = "inputs",
+#                                       url = ABBCURL,
+#                                       fun = "read.csv",
+#                                       overwrite = TRUE)
+# 
+# knitr::kable(vegClassABBC, caption = "An example")
+```
 
-Alberta Biodiversity Monitoring Institute and Boreal Avian Modelling Project. 2019. Ovenbird (Seiurus aurocapilla). ABMI Website: abmi.ca/home/data-analytics/biobrowser-home/species-profile?tsn=726205.
+## BCR 6 in British Columbia and Alberta
 
-BAM 
+Table: (\#tab:ABBC) Vegetation type description for BCR 6:*British Columbia and Alberta*. Modified from Mahon(-@mahon2016).
 
-Cosco, J. A. 2020. Common Attribute Schema (CAS) for Forest Inventories Across Canada. https://github.com/edwardsmarc/CASFRI/tree/master/docs/specifications [Accessed 03/12/2020]
+| Vegetation Type | Description |
+|-|-|
+| Pine dominant | Upland. Stands where combined jack pine and lodgepole pine are the leading species and  deciduous species comprise less than 20% |
+| Black spruce | Upland. Stands where black spruce is the leading species, the soil regime is  dry or mesic and larch = 0% or stands where black spruce is the leading species,  the soil regime is wet and the combined species trembling aspen + balsam poplar +  balsam fir + jack pine more than 0% |
+| White spruce | Upland. Stands where combined white spruce and balsam fir comprise more than 80% |
+| Deciduous | Upland. Stands where combined trembling aspen, balsam poplar,  and white birch comprise more than 80%.  Mesic(M) and hygric (W) stands are differentiated |
+| Mixedwood | Upland. Stands where deciduous more than 20% and combined conifer species (jack pine, lodgepole pine, white spruce, balsam fir, and black spruce more than 20%.  Mesic(M) and hygric (W) stands are differentiated |
+| Wetland | Lowland-wetland. Stands where black spruce is the leading species and the soil regime  is aquatic or stands where black spruce is the leading species,  the soil regime is mesic and larch more than 0 or stands where black spruces  is the leading species, the soil regime is wet and the combined species: trembling aspen + balsam poplar + balsam fir + jack pine = 0 |
 
-The Ecological Framework of Canada.  http://ecozones.ca/english/ [Accessed 03/12/2020]
+## BCR6 in Northwest Territories 
 
-Environment Yukon. 2016. Flynn, N. and Francis S., editors. Yukon Ecological and Landscape Classification and Mapping Guidelines. Version 1.0. Whitehorse (YT): Department of Environment, Government of Yukon.
+Table: (\#tab:NWT) Vegetation type description for BCR 6:*Northwest Territories*.
 
-Fiera (Fiera Biological Consulting Ltd.). 2013. Terrestrial Biodiversity Monitoring & Effects Assessment of Landbirds in the Oil Sands Area – 2013 Summary Report. Edmonton, Alberta. Fiera Biological Consulting Report #1256 
+|Vegetation Type| Description|
+|---------------|-------------|
+|Spruce dominant| black/white   |
+|Pine dominant | jack pine       |
+|Deciduous dominant| trembling/black aspen|
+|Coniferous mix| usually spruce/pine|
+|Coniferous/deciduous mixedwood|     | 
+|Other hardwoods| green aspen/Manitoba maple/oak
 
-Forest Management Branch. 2006. Yukon Vegetation Inventory Manual, Version 2.1. https://emrlibrary.gov.yk.ca/forestry/yukon_vegetation_inventory_manual_2006.pdf [Accessed 03/12/2020]
 
-Forest Resources. 2006. Northwest Territories Forest Vegetation Inventory Standards with Softcopy Supplements. V. 3.0. Forest Management Division, Dept. of ENR. 
+## BCR 6 in Saskatchewan and Manitoba
 
-The Forestry Corp. 2004. FLI User Guide, Prepared for Louisiana Pacific Canada Ltd. and Manitoba Conservation. 11302-119 Street Edmonton, AB 
+Table: (\#tab:SKMB) Vegetation type description for BCR 6:*Saskatchewan and Manitoba*.
 
-Government of Canada. 2017. Bird Conservation Regions and strategies. https://www.canada.ca/en/environment-climate-change/services/migratory-bird-conservation/regions-strategies.html [Accessed 07/12/2020]
+|Vegetation Type| Description|
+|---------------|-------------|
+|Spruce dominant| black/white   |
+|Pine dominant | jack pine       |
+|Deciduous dominant| trembling/black aspen|
+|Coniferous mix| usually spruce/pine|
+|Coniferous/deciduous mixedwood|     | 
+|Other hardwoods| green aspen/Manitoba maple/oak
 
-Latifovic, R. et al. 2008. Land cover map of Canada 2005 at 250m spatial resolution. Natural Resources Canada/ESS/Canada Centre for Remote Sensing. ftp://ftp.ccrs.nrcan.gc.ca/ad/NLCCLandCover/LandcoverCanada2005_250m/.
+## BCR 4
+Table: (\#tab:4) Vegetation type description for BCR 4.
 
-Ministry of Forests, Lands and NRO. 2012. VRI Relational Data Dictionary (Version 4.0).
+|Vegetation Type   | Description |
+|------------------|-------------|
+|Deciduous dominant| black/white   |
+|Coniferous | jack pine       |
+|Deciduous dominant| trembling/black aspen|
+|Coniferous mix| usually spruce/pine|
+|Coniferous/deciduous mixedwood|     | 
+|Other hardwoods| green aspen/Manitoba maple/oak
 
-Power, K., Gillis, M. 2006. Canada's Forest Inventory 2001. Natural Resources Canada, Canadian Forest Service, Pacific Forestry Centre, Victoria, BC. 
+## BCR 7 and BCR 8
 
-Resource Information Management Branch, Alberta Sustainable Resource Development. 2005. Alberta Vegetation Inventory Interpretation Standards: Chapter 3- Vegetation Inventory Standards and Data Model Documents. V. 2.1.1. Edmonton, AB.
+Table: (\#tab:8) Vegetation type description for BCR 7 and 8.
 
-Saskatchewan Environment. 2004. Saskatchewan Forest Vegetation Inventory. Forest Service Saskatchewan Environment, Box 3003, Prince Albert, SK, Canada S6V 6G1
+|Vegetation Type| Description|
+|---------------|-------------|
+|Spruce dominant| black/white   |
+|Pine dominant | jack pine       |
+|Deciduous dominant| trembling/black aspen|
+|Coniferous mix| usually spruce/pine|
+|Coniferous/deciduous mixedwood|     | 
+|Other hardwoods| green aspen/Manitoba maple/oak
+
+## Ages classes for forested areas
+
+Power (2006) reported and age class of more than 401 years for British Columbia. Howewer, the oldest stand age found in the study area was 400 years in BCR 4 Fig.\@ref(fig:ages). The Province Forest Inventories consistenly use 10-yr age classes,thus the present study will use the same approach.The maximum age class will be 191-200 or possible as young as 141-150. 
+
+
+```{r ages, fig.cap="Age Frequency for BCR 4, 6, 7 and 8.", out.width="50%"}
+
+par(mar = c(4, 4, .1, .1))
+knitr::include_graphics("figures/age/BCR4_age.png")
+knitr::include_graphics("figures/age/BCR6_age.png")
+knitr::include_graphics("figures/age/BCR7_age.png")
+knitr::include_graphics("figures/age/BCR8_age.png")
+
+```
+
+
+
+\newpage
+
+## References
 
