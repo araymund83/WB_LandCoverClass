@@ -43,10 +43,7 @@ lapply(names(lccPlot),
        function(x){ggsave(filename = paste0("figures/lcc/","LCC_BCR", x,".png"), 
                           plot = lccPlot[[x]], width = 7, height = 5,
                           dpi =200)})
-
-
 ## proportion plots
-
 lccpropPlot <- lapply(sort(unique(countLCC$bcr)), function(x){
   ggplot(countLCC[countLCC$bcr == x], aes(x= lcc, y = prop), group = as.factor(bcr))+
     geom_bar(aes(fill= as.factor(bcr)),
@@ -171,5 +168,5 @@ lapply(names(agepropPlot),
        function(x) ggsave(filename = paste0("figures/age/", x,"_age", ".png", sep = ""), 
                           plot = agepropPlot[[x]], width = 5, height = 3,
                           dpi = 200))
-
+do.call(agepropPlot)
 

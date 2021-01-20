@@ -110,6 +110,7 @@ bcr6SA <- st_cast(bcr6SA,"MULTIPOLYGON")
 LCC05Ras <- reproducible::Cache(prepInputsLCC,year = 2005, 
                              studyArea = studyArea,
                              destinationPath = getPaths()$inputPath)
+
 ## crop and mask with BCR6
 LCC05_6Ras <- reproducible::Cache(postProcess,
                                   LCC05Ras, 
@@ -123,7 +124,7 @@ wetlandzip <- "https://drive.google.com/file/d/1R1AkkD06E-x36cCHWL4U5450mSDu_vD0
 wetlandWB <- Cache(prepInputs,
                 url = wetlandzip,
                 destinationPath = dPath,
-                studyArea = bcrWB,
+                rasterToMatch = LCC05Ras,
                 targetFile = "CA_wetlands_post2000.tif",
                 userTags = c("wetlandWB")
                 )
