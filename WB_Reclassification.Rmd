@@ -1,0 +1,156 @@
+---
+title: "WB_reclassification"
+author: "Isolde Lane-Shaw"
+date: "1/13/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r packages}
+
+#list packages to load
+library("SpaDES")
+library("raster")
+library("sf")
+library("rgdal")
+library("googledrive")
+library("data.table")
+library("LandR")
+
+```
+
+
+```{r enterRasterToMatch}
+
+rasterToMatch <- LandR::prepInputsLCC()
+
+```
+
+
+
+```{r enterStudyRegions, echo=FALSE}
+
+nameAreaShapefile <- "WB_studyregions.shp" #specify file name
+folderUrlArea <- "https://drive.google.com/file/d/17QoQF2lRHHHF_J_2oioLma8wFBMeVB-z/view?usp=sharing" #give file location 
+archiveArea <- "WB_studyregions.zip" #give archive name
+downloadFolderArea <- paste0(getwd(),"/studyArea") #say where to download to
+
+studyregions <- prepInputs(targetFile = nameAreaShapefile, 
+                            url = folderUrlArea,
+                            archive = archiveArea, 
+                            alsoExtract = "similar", #Extract other files with similar names
+                            destinationPath = downloadFolderArea, #save the file to a folder in the working directory called studyArea
+                            fun = "raster::shapefile", #use the function shapefile
+                            rasterToMatch = rasterToMatch, #use the specified rasterToMatch to reproject to
+                            overwrite = TRUE)
+
+```
+
+
+```{r getLCCRasters}
+
+regionsList <- as.list(strsplit(studyregions@data$layer, " "))
+lccRaster <- LandR::prepInputsLCC() #bring in lccRaster to be reclassified.
+
+studyregionsRasters <- lapply(X = regionsList, FUN = function(region){
+  
+  BCRpolygon <- studyregions[studyregions$layer == region,]
+  lccRasterCropped <- raster::crop(lccRaster,BCRpolygon) #crop lccRaster to studyArea
+  BCR <- mask(lccRasterCropped, BCRpolygon) #mask lccRaster to studyArea
+  
+  return(BCR)  
+})
+
+names(studyregionsRasters) <- regionsList #name the rasters
+
+```
+
+```{r makeForestStatusRasters}
+
+
+
+#create reclassification matrix
+#forested regions will be 0, non-forested regions will be 1
+#NOTE: this reclassification matrix is dependent upon the use of LCC2005 for the studyregion rasters
+
+catsLCC <- matrix(c(1:39), ncol=1, byrow = TRUE)
+forOrNot <- matrix(c(rep(0,15),rep(1,18), 0, 0, rep(1,4)), ncol=1, byrow = TRUE)
+forestStatMatrix <- cbind(catsLCC, forOrNot)
+
+forestStatusRasters <- lapply(X = studyregionsRasters, FUN = function(region){
+    # reclassify the raster using the matrix
+    forStat <- reclassify(region,
+                     forestStatMatrix)
+    return(forStat)
+
+  })
+
+```
+
+```{r makeNonForRasters}
+
+# create reclassification matrices for each study region
+#forested regions will be 0, non forested regions will be according to the following:
+# 1= water/ice, 2 = wetland, 3 = anthropogenic/exposed land, 4 = grass/cropland, 5 = shrub, 6 = bryoid 
+#NOTE:this reclassification matrix is dependent upon the use of LCC2005 for the studyregion rasters 
+
+nonForReclass <- c(1, 0,
+                   2, 0,
+                   3, 0,
+                   4, 0,
+                   5, 0,
+                   6, 0,
+                   7, 0,
+                   8, 0,
+                   9, 0,
+                   10, 0,
+                   11, 0,
+                   12, 0,
+                   13, 0,
+                   14, 0,
+                   15, 0,
+                   16, 5,
+                   17, 4,
+                   18, 4,
+                   19, 2,
+                   20, 5,
+                   21, 4,
+                   22, 5,
+                   23, 4,
+                   24, 6,
+                   25, 3,
+                   26, 4,
+                   27, 4,
+                   28, 4,
+                   29, 4,
+                   30, 6,
+                   31, 6,
+                   32, 6,
+                   33, 3,
+                   34, 0,
+                   35, 0,
+                   36, 3,
+                   37, 1,
+                   38, 1,
+                   39, 1)
+
+nonForReclassMatrix <- matrix(nonForReclass, 
+                              ncol=2, byrow = TRUE)
+
+nonForRasters <- lapply(X = studyregionsRasters, FUN = function(region){
+    # reclassify the raster using the matrix
+    forStat <- reclassify(region,
+                     nonForReclassMatrix)
+    return(forStat)
+
+  })
+
+```
+
+
+
+
