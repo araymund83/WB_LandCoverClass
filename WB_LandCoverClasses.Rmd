@@ -150,12 +150,11 @@ Table: (\#tab:4) Vegetation type description for BCR 4.
 
 |Vegetation Type   | Description |
 |------------------|-------------|
-|Deciduous dominant| black/white   |
-|Coniferous | jack pine       |
-|Deciduous dominant| trembling/black aspen|
-|Coniferous mix| usually spruce/pine|
-|Coniferous/deciduous mixedwood|     | 
-|Other hardwoods| green aspen/Manitoba maple/oak
+|Spruce/Fir dominant | Spruce and fir stands where the combined spruce and fir component is 80% or more |
+|Pine dominant | Lodgepole or jack pine stands where the pine component is 80% or more |
+|Deciduous dominant | Stands where the deciduous tree component is 80% or more |
+|Coniferous mix | Coniferous trees component is 80% or more |
+|Coniferous/deciduous mix | Mixed stands where neither deciduous or coniferous component is 80% or more | 
 
 ## BCR 7 and BCR 8
 
