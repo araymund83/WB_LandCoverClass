@@ -123,8 +123,13 @@ LCC05_6Ras <- reproducible::Cache(postProcess,
 wetlandzip <- "https://drive.google.com/file/d/1R1AkkD06E-x36cCHWL4U5450mSDu_vD0/view?usp=sharing"
 wetlandWB <- Cache(prepInputs,
                 url = wetlandzip,
+<<<<<<< HEAD
+                destinationPath = getPaths()$inputPath,
+                studyArea = studyArea,
+=======
                 destinationPath = dPath,
                 rasterToMatch = LCC05Ras,
+>>>>>>> be86b1fb756c9358cf59238b0fc1d8b4334c9aa6
                 targetFile = "CA_wetlands_post2000.tif",
                 userTags = c("wetlandWB")
                 )
