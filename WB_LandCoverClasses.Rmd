@@ -156,18 +156,29 @@ Table: (\#tab:4) Vegetation type description for BCR 4.
 |Coniferous mix | Coniferous trees component is 80% or more |
 |Coniferous/deciduous mix | Mixed stands where neither deciduous or coniferous component is 80% or more | 
 
-## BCR 7 and BCR 8
+## BCR 7
 
-Table: (\#tab:8) Vegetation type description for BCR 7 and 8.
+Table: (\#tab:8) Vegetation type description for BCR 7.
 
 |Vegetation Type| Description|
 |---------------|-------------|
-|Spruce dominant| black/white   |
-|Pine dominant | jack pine       |
-|Deciduous dominant| trembling/black aspen|
-|Coniferous mix| usually spruce/pine|
-|Coniferous/deciduous mixedwood|     | 
-|Other hardwoods| green aspen/Manitoba maple/oak
+|Stunted coniferous | Tree cover sparse at 40% or less with stunted spruce, larch and jack pine species making up 80% or more. Understory largely lichen and rock. |
+|Coniferous mix| Coniferous trees component is 80% or more |
+|Coniferous/deciduous mix or deciduous dominant| Stands where coniferous component is not 80% or more |
+|Forested wetland | Lowland-wetland with poor drainage and tree cover sparse at 40% or less, where black spruce and larch species component is 80% or more.  Moss, lichen and/or herb understory. |
+
+## BCR 8
+
+Table: (\#tab:8) Vegetation type description for BCR 8.
+
+|Vegetation Type| Description|
+|---------------|-------------|
+|Spruce dominant| Spruce stands where the combined spruce component is 80% or more |
+|Deciduous dominant| Stands where the deciduous tree component is 80% or more |
+|Coniferous mix| Coniferous trees component is 80% or more |
+|Coniferous/deciduous mix| Mixed stands where neither deciduous or coniferous component is 80% or more |
+|Forested wetland | Lowland-wetland with poor drainage and tree cover sparse at 40% or less, where black spruce and larch species component is 80% or more, underlain by moss, lichen and/or herb understory |
+
 
 ## Ages classes for forested areas
 
