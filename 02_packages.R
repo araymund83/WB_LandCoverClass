@@ -3,7 +3,6 @@
 ### don't need to load packages for modules. It is done automatically but 
 ### ensure they are installed
 ################################################################################
-
 library("devtools")
 if (FALSE){
   devtools::install_github("PredictiveEcology/reproducible@development")
@@ -42,6 +41,6 @@ Require("ggplot2")
 Require("gridExtra")
 Require("RColorBrewer")
 Require("tinytex")
-Require("citr")
+#Require("citr")
 Require("bookdown")
 
