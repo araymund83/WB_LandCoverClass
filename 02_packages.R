@@ -41,6 +41,6 @@ Require("ggplot2")
 Require("gridExtra")
 Require("RColorBrewer")
 Require("tinytex")
-Require("citr")
+#Require("citr")
 Require("bookdown")
 
