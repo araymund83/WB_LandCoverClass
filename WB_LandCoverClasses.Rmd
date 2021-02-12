@@ -118,19 +118,17 @@ Table: (\#tab:ABBC) Vegetation type description for BCR 6:*British Columbia and 
 | Mixedwood | Upland. Stands where deciduous more than 20% and combined conifer species (jack pine, lodgepole pine, white spruce, balsam fir, and black spruce more than 20%.  Mesic(M) and hygric (W) stands are differentiated |
 | Wetland | Lowland-wetland. Stands where black spruce is the leading species and the soil regime  is aquatic or stands where black spruce is the leading species,  the soil regime is mesic and larch more than 0 or stands where black spruces  is the leading species, the soil regime is wet and the combined species: trembling aspen + balsam poplar + balsam fir + jack pine = 0 |
 
-## BCR6 in Northwest Territories 
+## BCR6 in Northwest Territories and Yukon 
 
-Table: (\#tab:NWT) Vegetation type description for BCR 6:*Northwest Territories*.
+Table: (\#tab:NWT) Vegetation type description for BCR 6:*Northwest Territories and Yukon*.
 
 |Vegetation Type| Description|
 |---------------|-------------|
-|Spruce dominant| black/white   |
-|Pine dominant | jack pine       |
-|Deciduous dominant| trembling/black aspen|
-|Coniferous mix| usually spruce/pine|
-|Coniferous/deciduous mixedwood|     | 
-|Other hardwoods| green aspen/Manitoba maple/oak
-
+|Spruce dominant | Spruce stands where the combined spruce component is 80% or more |
+|Deciduous dominant | Stands where the deciduous tree component is 80% or more |
+|Coniferous mix | Coniferous trees component is 80% or more |
+|Coniferous/deciduous mix | Mixed stands where neither deciduous or coniferous component is 80% or more |
+|Forested wetland | Lowland-wetland with poor drainage and tree cover sparse at 40% or less, where black spruce and larch species component is 80% or more.  Moss, lichen and/or herb understory. |
 
 ## BCR 6 in Saskatchewan and Manitoba
 
@@ -138,12 +136,10 @@ Table: (\#tab:SKMB) Vegetation type description for BCR 6:*Saskatchewan and Mani
 
 |Vegetation Type| Description|
 |---------------|-------------|
-|Spruce dominant| black/white   |
-|Pine dominant | jack pine       |
-|Deciduous dominant| trembling/black aspen|
-|Coniferous mix| usually spruce/pine|
-|Coniferous/deciduous mixedwood|     | 
-|Other hardwoods| green aspen/Manitoba maple/oak
+|Deciduous dominant| Stands where the deciduous tree component is 80% or more |
+|Coniferous dominant | Coniferous trees component is 80% or more |
+|Coniferous/deciduous mix | Mixed stands where neither deciduous or coniferous component is 80% or more     | |Other hardwoods | Rarer hardwoods such as green ash, Manitoba maple or white elm comprise 20% or more |
+|Forested wetland | Lowland-wetland with poor drainage and tree cover sparse at 40% or less, where black spruce and larch species component is 80% or more.  Moss, lichen and/or herb understory. |
 
 ## BCR 4
 Table: (\#tab:4) Vegetation type description for BCR 4.
@@ -154,7 +150,8 @@ Table: (\#tab:4) Vegetation type description for BCR 4.
 |Pine dominant | Lodgepole or jack pine stands where the pine component is 80% or more |
 |Deciduous dominant | Stands where the deciduous tree component is 80% or more |
 |Coniferous mix | Coniferous trees component is 80% or more |
-|Coniferous/deciduous mix | Mixed stands where neither deciduous or coniferous component is 80% or more | 
+|Coniferous/deciduous mix | Mixed stands where neither deciduous or coniferous component is 80% or more |
+|Forested wetland | Lowland-wetland with poor drainage and tree cover sparse at 40% or less, where black spruce and larch species component is 80% or more.  Moss, lichen and/or herb understory. |
 
 ## BCR 7
 
