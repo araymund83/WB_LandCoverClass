@@ -12,7 +12,7 @@ options(
   "map.overwrite" = TRUE,
   "reproducible.futurePlan" = FALSE,
   "future.globals.maxSize" = 6000*1024^2,
-  "reproducible.inputPaths" = NULL,
+  "reproducible.inputPaths" = paths1$inputhPath,
   "reproducible.cacheSaveFormat" = "qs",
   "reproducible.qsPreset" = "fast",
   "reproducible.useGDAL" = FALSE,
@@ -20,9 +20,9 @@ options(
   "reproducible.inputPaths" = NULL,
   "reproducible.overwrite" = TRUE,
   "reproducible.useMemoise" = TRUE, # Brings cached stuff to memory during the second run
-  "reproducible.useNewDigestAlgorithm" = TRUE,  # use the new less strict hashing algorithm
+  "reproducible.useNewDigestAlgorithm" = 2,  # use the new less strict hashing algorithm
   "reproducible.useCache" = TRUE,
-  "reproducible.cachePath" = file.path(scratchDirRas, "cache"),
+  "reproducible.cachePath" = Paths$cachePath,
   "reproducible.showSimilar" = TRUE,
   "reproducible.useCloud" = FALSE,
   "spades.moduleCodeChecks" = FALSE, ## Turn off all module's code checking

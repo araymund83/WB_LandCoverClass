@@ -16,3 +16,6 @@
 [submodule "modules/scfm"]
 	path = modules/scfm
 	url = git@github.com:PredictiveEcology/scfm.git
+[submodule "modules/PSP_Clean"]
+	path = modules/PSP_Clean
+	url = git@github.com:ianmseddy/PSP_Clean.git

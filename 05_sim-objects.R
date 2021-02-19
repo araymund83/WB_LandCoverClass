@@ -14,21 +14,26 @@
   #                                              EN_generic_full = "Pine",
   #                                              Leading = "Pine leading")]
   
-  sppEquivalencies_CA[, WB := c(Pice_Mar = "Pice_mar", Pice_Gla = "Pice_gla",
-                                Pinu_Con = "Pinu_con", Popu_Tre = "Popu_tre",
-                                Popu_Bal = "Popu_bal", Lari_Lar = "Lari_lar",
-                                Pinu_Ban = "Pinu_ban", Betu_Pap = "Betu_pap",
-                                Abie_Las = "Abie_las", Abie_Bal = "Abie_bal")[Boreal]]
+  sppEquivalencies_CA[, WB := c(Pice_mar = "Pice_mar", Pice_gla = "Pice_gla",
+                                Pinu_con = "Pinu_con", Popu_tre = "Popu_tre",
+                                Popu_bal = "Popu_bal", Lari_lar = "Lari_lar",
+                                Pinu_ban = "Pinu_ban", Betu_pap = "Betu_pap",
+                                Abie_las = "Abie_las", Abie_bal = "Abie_bal")[LandR]]
+                                #Frax_pen = "Frax_pen", Acer_neg = "Acer_neg",
+                               # Ulmu_ame = "Ulmu_ame", Sali_sp = "Sali_sp")[LandR]]
   
   sppEquivalencies_CA <- sppEquivalencies_CA[!LANDIS_traits == "PINU.CON.CON"]
   
-  sppEquivalencies_CA[AB == "Abie_Las", EN_generic_full := "Subalpine Fir"]
-  sppEquivalencies_CA[AB == "Abie_Las", EN_generic_short := "Fir"]
-  sppEquivalencies_CA[AB == "Abie_Las", Leading := "Fir leading"]
-  sppEquivalencies_CA[AB == "Popu_Tre", Leading := "Pop leading"]
-  sppEquivalencies_CA[AB == "Betu_Pap", EN_generic_short := "Betula"]
-  sppEquivalencies_CA[AB == "Betu_Pap",  Leading := "Betula leading"]
-  sppEquivalencies_CA[AB == "Betu_Pap",  EN_generic_full := "Paper birch"]
+  sppEquivalencies_CA[WB == "Abie_las", EN_generic_full := "Subalpine Fir"]
+  sppEquivalencies_CA[WB == "Abie_las", EN_generic_short := "Fir"]
+  sppEquivalencies_CA[WB == "Abie_las", Leading := "Fir leading"]
+  sppEquivalencies_CA[WB == "Popu_tre", Leading := "Pop leading"]
+  sppEquivalencies_CA[WB == "Betu_pap", EN_generic_short := "Betula"]
+  sppEquivalencies_CA[WB == "Betu_pap",  Leading := "Betula leading"]
+  sppEquivalencies_CA[WB == "Betu_pap",  EN_generic_full := "Paper birch"]
+ # sppEquivalencies_CA[WB == "Acer_neg",  EN_generic_full := "Boxelder maple"]
+  #sppEquivalencies_CA[WB == "Frax_ame",  EN_generic_full := "American beech"]
+  #sppEquivalencies_CA[WB == "Sali_sp",  EN_generic_full := "Willow leading"]
   
   sppEquivalencies_CA$EN_generic_short <- sppEquivalencies_CA$WB
   
@@ -39,6 +44,9 @@
   sppColorVect <- LandR::sppColors(sppEquiv = sppEquivalencies_CA, 
                                    sppEquivCol = sppEquivCol,
                                    palette = "Set3")
+  mixed <- structure("#D0FB84", names = "Mixed")
+  sppColorVect[length(sppColorVect)+1] <- mixed
+  attributes(sppColorVect)$names[length(sppColorVect)] <- "Mixed"
   
   
   

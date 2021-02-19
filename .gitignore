@@ -9,5 +9,10 @@
 *.tif
 /inputs
 /outputs
+*.pdf
+*.xml
+*/xlsx
+*.shp
+*.txt
 
 
