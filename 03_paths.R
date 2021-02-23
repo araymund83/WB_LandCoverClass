@@ -1,43 +1,15 @@
-#--------------------------------------------
-## Set paths for each part of the simulation
-#--------------------------------------------
-## studyAreas
-paths1 <- list(
-  ## use same cachePath for all data-prep steps before dynamic simulation
-  #cachePath = file.path("cache", studyarea,"dataPrepGIS", "preamble"),
-  cachePath = file.path("cache", "dataPrepGIS", "preamble"),
-  modulePath = "modules", 
-  inputPath = "inputs/studyArea/data",
-  outputPath = file.path("outputs")
+paths <- list(
+              inputPath = checkPath(file.path(getwd(),"inputs"), create = TRUE),
+              modulePath = c(file.path(getwd(),'modules'),
+                             file.path(getwd(), "modules/scfm/modules")),
+              cachePath = checkPath(file.path(getwd(),"cache"), create = TRUE),
+              outputPath = file.path(getwd(), 'outputs')
 )
 
-## species layers
-paths2 <- list(
-  ## use same cachePath for all data-prep steps before dynamic simulation
-  # cachePath = file.path("cache",studyarea, "dataPrepGIS","speciesLayers"),
-  cachePath = file.path("cache", "dataPrepGIS","speciesLayers"),
-  modulePath = c(file.path(getwd(), "modules"),
-                 file.path(getwd(), "modules/scfm/modules")),
-  inputPath = "inputs",
-  outputPath = file.path("outputs")
-)
+inputsCache <- checkPath(file.path(paths$cachePath, "inputs", studyarea), create = TRUE)
+preambleCache <- checkPath(file.path(paths$cachePath, "preamble", studyarea), create = TRUE)   
 
-## boreal data prep
-paths2a <- list(
-  #cachePath = file.path("cache", studyarea,"dataPrepGIS", "borealDataPrep"),
-  cachePath = file.path("cache","dataPrepGIS", "borealDataPrep"),
-  modulePath = "modules",
-  inputPath = "inputs",
-  outputPath =file.path("outputs")
-)
-
-## main simulation 
-paths3 <- list(
-  #use a separate cachePath for each dynamic simulation
-  cachePath = file.path("cache"),
-  modulePath = c(file.path(getwd(), "modules"),
-                 file.path(getwd(), "modules/scfm/modules")),
-  inputPath = "inputs",
-  outputPath = checkPath(file.path("outputs/results"), 
-                         create = TRUE)
-)
+SpaDES.core::setPaths(modulePath = paths$modulePath, 
+                      inputPath = paths$inputPath, 
+                      outputPath = paths$outputPath, 
+                      cachePath = inputsCache)
