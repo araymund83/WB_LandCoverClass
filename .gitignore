@@ -14,5 +14,6 @@
 */xlsx
 *.shp
 *.txt
+*.rds
 
 
