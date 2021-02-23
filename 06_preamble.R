@@ -1,4 +1,4 @@
-do.call(SpaDES.core::setPaths, paths1)
+#do.call(SpaDES.core::setPaths, paths1)
 
 bcrzip <- "https://www.birdscanada.org/download/gislab/bcr_terrestrial_shape.zip"
 
@@ -9,8 +9,7 @@ targetCRS <- paste("+proj=lcc +lat_1=49 +lat_2=77 +lat_0=0 +lon_0=-95",
 #################################################################################
 bcrshp <- Cache(prepInputs,
                 url = bcrzip,
-                cacheRepo = paths1$cachePath,
-                destinationPath = paths1$inputPath,
+                destinationPath = Paths$inputPath,
                 targetCRS = targetCRS,
                 fun = "sf::st_read")
 
@@ -21,11 +20,10 @@ canProvs <- Cache(prepInputs,
                   "GADM",
                   fun = "base::readRDS",
                   dlFun = "raster::getData",
-                  country = "CAN", level = 1, path = paths1$inputPath,
+                  country = "CAN", level = 1, 
                   #targetCRS = targetCRS, ## TODO: fails on Windows
                   targetFile = "gadm36_CAN_1_sp.rds", ## TODO: this will change as GADM data update
-                  cacheRepo = paths1$cachePath,
-                  destinationPath = paths1$inputPath) %>%
+                  destinationPath = Paths$inputPath) %>%
   st_as_sf(.) %>%
   st_transform(., targetCRS)
 #################################################################################
@@ -41,7 +39,7 @@ provsWB <- canProvs[canProvs$NAME_1 %in% WB, ]
 
 studyArea <- reproducible::Cache(postProcess,
                                  provsWB, studyArea= bcrWB, useSAcrs = TRUE,
-                                 cacheRepo = paths1$cachePath, filename2 = "WB_studyArea") 
+                                 destinationPath = Paths$inputPath, filename2 = "WB_studyArea") 
 studyArea <- as_Spatial(studyArea)
 #st_write(studyArea, "inputs/studyArea/BCR_WB.shp", driver = "ESRI Shapefile")
 
@@ -65,7 +63,7 @@ bcr6SA <- reproducible::Cache(postProcess,
                               provsBCR6,
                               studyArea = bcr6, 
                               useSAcrs = TRUE,
-                              cacheRepo = paths1$cachePath, 
+                              destinationPath = Paths$inputPath,
                               filename2 = "bcr6_studyArea")
 
 ## in order to be able to rasterize, we need to create a numeric column to ID each of the provinces
@@ -81,19 +79,19 @@ bcr6ABBC <- reproducible::Cache(postProcess,
                                 ABBC, 
                                 studyArea = ABBC, 
                                 useSAcrs =  TRUE,
-                                cacheRepo = paths1$cachePath)
+                                destinationPath = Paths$inputPath)
 
 ## BCR6 North West Territories
 bcr6NWT <- reproducible::Cache(postProcess,
                                NWT, 
                                studyArea = bcr6SA, 
                                useSAcrs = TRUE,
-                               cacheRepo = paths1$cachePath)
+                               destinationPath = Paths$inputPath)
 
 ## BCR6 Saskatchewan - Manitoba
 bcr6SKMB <- postProcess(SKMB, studyArea = bcr6SA, 
                         useSAcrs = TRUE,
-                        cacheRepo = paths1$cachePath)
+                        destinationPath = Paths$inputPath)
 
 ## saving shapefiles (only do it once!)
 # st_write(bcr6SA, "inputs/studyArea/BCR6/BCR6.shp", driver = "ESRI Shapefile")
@@ -108,7 +106,7 @@ bcr6SKMB <- postProcess(SKMB, studyArea = bcr6SA,
 ## LCC 2005
 #################################################################################
 LCC05Ras <- reproducible::Cache(prepInputsLCC,
-                                destinationPath = paths1$inputPath,
+                                destinationPath = Paths$inputPath,
                                 studyArea = studyArea,
                                 year = 2005,
                                 filename2 = "LCC05_WB")
@@ -119,8 +117,14 @@ LCC05Ras <- reproducible::Cache(prepInputsLCC,
 LCC05_6Ras <- reproducible::Cache(postProcess,
                                   LCC05Ras, 
                                   studyArea = bcr6SA,
+                                  destinationPath = Paths$inputPath,
                                   filename2 = "LCC05_BCR6")
-
+bcr6ABBC <- as_Spatial(bcr6ABBC)
+LCC05_ABBCRas <- reproducible::Cache(postProcess,
+                                  LCC05Ras, 
+                                  studyArea = bcr6ABBC,
+                                  destinationPath = Paths$inputPath,
+                                  filename2 = "LCC05_BCR6")
 
 
 #################################################################################
@@ -134,15 +138,19 @@ standAgeMapURL <- paste0(
 # "http://ftp.maps.canada.ca/pub/nrcan_rncan/Forests_Foret/",
 # "canada-forests-attributes_attributs-forests-canada/2001-attributes_attributs-2001/",
 # "NFI_MODIS250m_2001_kNN_Structure_Stand_Age_v1.tif")
-standAgeMap2011 <- Cache(prepInputs, 
-                             destinationPath = paths1$inputPath,
-                             url = standAgeMapURL,
-                             fun = "raster::raster",
-                             studyArea = studyArea,
+
+standAgeMap2011 <- Cache(LandR::prepInputsStandAgeMap,
+                             destinationPath = Paths$inputPath,
+                             ageURL = standAgeMapURL,
+                             agefun = "raster::raster",
+                             studyArea = studyAreaLarge,
+                             rasterToMatch = rasterToMatchLarge,
                              #maskWithRTM = TRUE,
                              method = "bilinear",
+                             useCache = TRUE,
                              datatype = "INT2U",
-                             filename2 = "standAgeMap.tif"
+                             filename2 = "standAgeMap.tif",
+                             startTime = 1970
                           )
 
 #################################################################################
@@ -165,8 +173,8 @@ standAgeMap2011 <- Cache(prepInputs,
 studyAreaLarge<- studyArea 
 rasterToMatchLarge <- LCC05Ras
 rstLCC <- LCC05Ras
-studyArea <- bcr6SA
-rasterToMatch <- LCC05_6Ras
+studyArea <- bcrABBC
+rasterToMatch <- LCC05_ABBCRas
 
 flammableMap <- LandR::defineFlammable(LandCoverClassifiedMap = rstLCC,
                                        nonFlammClasses = c(33, 36:39),
@@ -177,7 +185,7 @@ biomassMapURL <- paste0(
   "NFI_MODIS250m_2001_kNN_Structure_Biomass_TotalLiveAboveGround_v1.tif")
 
 rawbiomassMap2001 <- Cache(prepInputs, 
-                               destinationPath = paths1$inputPath,
+                               destinationPath = Paths$inputPath,
                                url = biomassMapURL,
                                fun = "raster::raster",
                                studyArea = studyAreaLarge,
@@ -189,7 +197,7 @@ rawbiomassMap2001 <- Cache(prepInputs,
                                )
 
 speciesLayers2001 <- Cache(loadkNNSpeciesLayers,
-                           dPath = paths2$inputPath,
+                           dPath = Paths$inputPath,
                            rasterToMatch = rasterToMatchLarge,
                            studyArea = studyAreaLarge,
                            sppEquiv = sppEquivalencies_CA,
@@ -201,33 +209,14 @@ speciesLayers2001 <- Cache(loadkNNSpeciesLayers,
 
  vegMap <- Cache(prepInputsLCC,
                  year = 2005,
-                 destinationPath = paths3$inputPath,
+                 destinationPath = Paths$inputPath,
                  studyArea = studyAreaLarge,
                  rasterToMatch = rasterToMatchLarge,
                  filename2 = "vegMap.tif")
               
 
- NFDB_pointPath <-Paths$inputPath
- urlFire <- "http://cwfis.cfs.nrcan.gc.ca/downloads/nfdb/fire_pnt/current_version/NFDB_point.zip"
- fzip <- file.path(NFDB_pointPath, "NFDB_point.zip")
- fshp <- file.path(NFDB_pointPath, "NFDB_point_20190801.shp")
- download.file(url, destfile = fzip)
- unzip(fzip)
- dir(NFDB_pointPath)
- #firePoints <- raster::shapefile(file.path(NFDB_pointPath, "NFDB_point_20190801.shp"))
- firePoints <- sf::read_sf(fshp)
- 
- plot(firePoints)
- 
- correctCRS <- CRS("+init=epsg:4269 +proj=longlat +ellps=GRS80 +datum=NAD83 +no_defs +towgs84=0,0,0")
- firePointsReady <-  projectInputs(firePoints,
-                                   destinationPath = NFDB_pointPath,
-                                   filename2 = NULL,
-                                   targetCRS = correctCRS)
-
-  
 firePoints <- Cache(prepInputs,
-                    destinationPath = paths3$inputPath,
+                    destinationPath = Paths$inputPath,
                     studyArea = studyAreaLarge,
                     rasterToMathc = rasterToMatchLarge,
                     fun = sf::st_read,

@@ -30,7 +30,7 @@ knitr::opts_chunk$set(echo = FALSE, fig.align = "center", knit.duplicate.label =
 
 # Introduction
 
-Ecosystems are complex and highly integrated entities defined by assemblages of species, the physical environment, and the processes that regulate them. Vegetation heterogeneity has a strong influence on the diversity and distribution of other species. Structurally complex habitats may provide more niches and different ways of exploiting the environmental resources and thus increase species diversity [@tews2004; @lawler2004].  
+Ecosystems are complex and highly integrated entities defined by assemblages of species, the physical environment, and the processes that regulate them. Vegetation heterogeneity has a strong influence on the diversity and distribution of other species. Structurally complex habitats may provide more niches and different ways of exploiting the environmental resources and increasing species diversity [@tews2004; @lawler2004].  
 
 
 The complexity and heterogeneity of the land cover and vegetation in the Western Boreal Project area creates challenges in effective modeling due to finite data resources. In order to draw well-substantiated conclusions on the diversity and abundance of bird species across the region based upon the underlying land cover it is necessary to categorize land cover into broad land cover and age classes to avoid spreading the data on bird/vegetation relationships too thin. A successful example of this comes from the Alberta Biodiversity Monitoring Institute (ABMI), as shown in Figure \@ref(fig:oven) [@albertabiodiversitymonitoringinstitute2019]. 
@@ -40,25 +40,25 @@ The complexity and heterogeneity of the land cover and vegetation in the Western
 knitr::include_graphics("figures/ABMIExample.jpg")
 ```
 
-The Western Boreal Project (WBP) study area is large and it includes a significant heterogeneity of plant communities. However, specific characteristics are shared among the different provinces as established by the Ecological Framework of Canada [-@zotero-20]. Considering this information, it was decided that the study area should be divided into several sub-regions, to allow each region to be examined based on the most appropriate land cover classification system. 
+The Western Boreal Project (WBP) study area is large and it includes a significant heterogeneity of plant communities. However, specific characteristics are shared among the different provinces as established by Canada's Ecological Framework [-@zotero-20]. Based on this information, it was decided that the study area should be divided into several sub-regions, to allow each region to be examined based on the most appropriate land cover classification system. 
  We, therefore, aimed to:
  
-   *1) Determine an appropriate manner in which to divide the Western Boreal Project study area into sub-regions.* and
+   *1) Determine an appropriate manner to divide the Western Boreal Project study area into sub-regions.* and
    
    *2) Delineate a set of appropriate, ecologically meaningful land cover categories and age classes for each sub-region.*
 
 # Methods
 
-We carried out an extensive literature review of both materials describing the vegetation found in the study area and the methods used to classify the different cover classes. The provincial forest inventories allowed us to list the species and species assemblages described and used for vegetation categorization within potential sub-regions of interest for this project, and the age classes most commonly used  [@theforestrycorp2004; @saaskatchewanenvironment2004; @resourceinformationmanagementbranch.albertasustainableresourcedevelopment2005; @forestresources2006; @lisgo2008; @forestmanagementbranch2016]. The studies at national level allowed us to corroborate the hierarchical vegetation categorization of forested lands and the different ways in which stand age is classified [@power2006; @cosco2011].
+We carried out an extensive literature review of both materials describing the vegetation found in the study area and the methods used to classify the different cover classes. The local forest inventories allowed us to list the species and species assemblages described and used for vegetation categorization within potential sub-regions of interest for this project, and the age classes most commonly used  [@theforestrycorp2004; @saaskatchewanenvironment2004; @resourceinformationmanagementbranch.albertasustainableresourcedevelopment2005; @forestresources2006; @lisgo2008; @forestmanagementbranch2016]. The studies at national level allowed us to corroborate the hierarchical vegetation categorization of forested lands and the different ways in which stand age is classified [@power2006; @cosco2011].
 
 As the main objective of the project is focused on birds, we used Bird Conservation Regions (BCR) and the Province boundaries to obtain a sub-region division of the study area [@environmentcanada2013]. From this, we determined firstly, which potential BCR/Province groupings had the most similarities and would allow available bird data coverage from the Boreal Avian Modelling Project (BAM) to be equitably divided, and then, once sub-regions were determined, which land cover classes were most important in each one [@cumming2010; @barker2015].  
 
-The land cover classification classes for each sub-region were obtained by using the Land Cover Classification of Canada 2005 [@latifovic2008]. Stand age was obtained from Natural Resources Canada[@beaudoin2017a].
+The land cover classification classes for each sub-region were obtained using the Land Cover Classification of Canada 2005 (LCC05) [@latifovic2008]. LCC05 has 39 habitat categories. Categories 1 to 15 represent forested classes and 16 to 39 non-forested ones. Stand age was obtained from Natural Resources Canada[@beaudoin2017a].
 
 # Results
 
 ## Sub-regions
-The Western Boreal study area was divided into sub-regions following the BCR boundaries, with the exception of BCR 6, given its extention and vegetation hetergenity, it was split into three sub-regions: the northern area in Yukon, the Northwest Territories and Nunavut, the western area in British Columbia and Alberta, and the eastern area in Saskachewan and Manitoba (Fig.\@ref(fig:area)).  
+The Western Boreal study area was divided into sub-regions following the BCR boundaries, except for BCR 6, which given its extention and vegetation heterogeneity, it was split into three sub-regions: the northern area in Yukon, the Northwest Territories and Nunavut, the western area in British Columbia and Alberta, and the eastern area in Saskachewan and Manitoba (Fig.\@ref(fig:area)).  
 
 ```{r area, echo = FALSE, fig.cap = "Western Boreal Project sub-regions", out.width="60%"}
 knitr::include_graphics("figures/WB_LandCoverRegions.PNG")
@@ -179,7 +179,7 @@ Table: (\#tab:8) Vegetation type description for BCR 8.
 
 ## Ages classes for forested areas
 
-Power (2006) reported and age class of more than 401 years for British Columbia. Howewer, the oldest stand age found in the study area was 400 years in BCR 4 Fig.\@ref(fig:ages). The Province Forest Inventories consistenly use 10-yr age classes,thus the present study will use the same approach.The maximum age class will be 191-200 or possible as young as 141-150. 
+Power (2006) reported an age class of more than 401 years for British Columbia. However, the oldest stand age found in the study area was 400 years in BCR 4 Fig.\@ref(fig:ages). The Province Forest Inventories consistently use 10-yr age classes. Thus the present study will use the same approach.The maximum age class will be 141-150. 
 
 
 ```{r ages, fig.cap="Age Frequency for BCR 4, 6, 7 and 8.", out.width="50%"}
