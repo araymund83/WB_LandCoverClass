@@ -9,7 +9,9 @@
 ## or other modules). That's why caching is kept separate from the rest
 ## of the simulation
 
-do.call(SpaDES.core::setPaths, paths2)
+#do.call(SpaDES.core::setPaths, paths1)
+SpaDES.core::setPaths(cachePath = preambleCache,
+                      outputPath = Paths$inputPath)
 
 #get sppEquivalencies
 
@@ -21,18 +23,18 @@ objects2 <- list(
   #"nonTreePixels" = simOutPreamble$nonTreePixels,
   "omitNonVegPixels" = TRUE,
   "cloudFolderID" = cloudFolderID,
-  "rasterToMatch" =rasterToMatch,
+  "rasterToMatch" = LCC05_ABBCRas,
   "rasterToMatchLarge" = rasterToMatchLarge,
   "sppColorVect" = sppColorVect,
   "sppEquiv" = sppEquivalencies_CA,
   "speciesLayers" = speciesLayers2001,
-  "studyArea" = studyArea,
+  "studyArea" = bcr6ABBC,
   "studyAreaLarge" = studyAreaLarge,
   #"studyAreaReporting" = simOutPreamble$studyAreaReporting,
   "rstLCC " = rstLCC,
   "vegMap" = vegMap,
   #"firePoints" = firePoints,
-  #"standAgeMap" = simOutPreamble$standAgeMap2011,
+  "standAgeMap" = standAgeMap2011,
   "rawBiomassMap" = rawbiomassMap2001,
   "flammableMap" = flammableMap
   #"sliverThreshold" = 1e10
@@ -102,11 +104,14 @@ parameters2 <- list(
                                        sim$sppEquiv, P(sim)$sppEquivCol)),
       quote(LandR::updateSpeciesTable(sim$species, sim$speciesParams))
      ) ## ### MAKE SURE of closing the list in the right plaCE!!!!!!!
+     , "biomassModel" = quote(lme4::lmer(B ~ logAge * speciesCode + cover * speciesCode +
+                                           (logAge + cover | ecoregionGroup)))
      , "forestedLCCClasses" =  forestedLCCClasses
      , "LCCClassesToReplaceNN" = LCCClassesToReplaceNN
      , ".useCache" = c(".inputObjects", "init")
 #     #, "runName" = runName
-#     #, "standAgeMap" = simOutPreamble$standAgeMap2011
+     ,"standAgeMap" = standAgeMap2011
+     , "rstLCC" = LCC05_6Ras
      , "rawBiomassMap" = rawbiomassMap2001
      , "speciesLayers" = speciesLayers2001
      , "successionTimestep" = 10
@@ -140,18 +145,31 @@ parameters2 <- list(
     )
 )
 
-sppLayersFile <- file.path(paths2$inputPath, paste0("simOutSpeciesLayers_", 
-                                                   studyarea, ".qs"))
+dataPrepOutputs2001 <- data.frame(objectName = c("cohortData", 
+                                                 "pixelGroupMap",
+                                                 "speciesLayers",
+                                                 "standAgeMap",
+                                                 "rawBiomassMap"),
+                                  saveTime = 2001,
+                                  file = c("cohortData2001_ABBC.rds",
+                                           "pixelGroupMap2001_ABBC.rds",
+                                           "speciesLayers2001_ABBC.rds",
+                                           "standAgeMap2001_borealDataPrep.rds",
+                                           "rawBiomassMap2001_borealDataPrep.rds"))
+
+#sppLayersFile <- file.path(paths$inputPath, paste0("simOutSpeciesLayers_", 
+                                                  # studyarea, ".qs"))
 #speciesModules <- c("PSP_Clean", "Biomass_speciesData", "Biomass_borealDataPrep",
   #                 "Biomass_speciesParameters", "scfmLandcoverInit", "scfmRegime")
-speciesModules <- c("Biomass_borealDataPrep","scfmLandcoverInit", "scfmRegime")
+speciesModules <- c("Biomass_borealDataPrep")
 
 simOutSppLayers <- Cache(simInitAndSpades,
                          times = list(start = simTimes$start, end = simTimes$start + 1)
                          , params = parameters2
                          , modules = speciesModules
                          , objects = objects2
-                         , paths = paths2
+                         , outputs = dataPrepOutputs2001
+                         , paths = getPaths()
                          , debug = TRUE
                          , .plotInitialTime = NA
                          , purge = 7

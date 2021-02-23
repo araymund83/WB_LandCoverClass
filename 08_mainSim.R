@@ -147,7 +147,8 @@ outputsLandR <- data.frame(
                         "rstCurrentBurn",
                         "vegTypeMap",
                         "burnDT",
-                        "speciesTable"), each = length(succTS)),
+                        "speciesTable",
+                        "speciesTableEcoregion"), each = length(succTS)),
    saveTime = c(rep(succTS, times = 8))
 )
 
@@ -184,6 +185,6 @@ mySimOut <- simInitAndSpades(times = simTimes
                              ,params = paraSim
                              ,modules = allModules
                              ,objects = simObjects
-                             ,outputs = simOutputs
+                             ,outputs = outputsLandR
                              ,paths = paths3
                              ,loadOrder = unlist(allModules), debug = 1)
