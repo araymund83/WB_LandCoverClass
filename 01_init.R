@@ -13,8 +13,8 @@ googledrive::drive_auth(email = "araymund83@gmail.com")
 workDirectory <- getwd()
 message("Your current temporary directory is ", tempdir())
 # Raster tmp
-scratchDirRas <- file.path("/media/data/project/araymundo/scratch/WB_LandCoverClass")
-#scratchDirRas <- file.path("~/scratch")
+#scratchDirRas <- file.path("/media/data/project/araymundo/scratch/WB_LandCoverClass")
+scratchDirRas <- file.path("~/scratch")
 if(dir.create(scratchDirRas)) system(paste0("chmod -R 777 ", scratchDirRas), wait = TRUE) 
 raster::rasterOptions(default = TRUE)
 maxMemory <- 5e+12
@@ -25,7 +25,8 @@ activeDir <- if (dir.exists(scratchDirRas)) {
 }
 cloudFolderID <- "https://drive.google.com/drive/folders/1AuEcaGDQ20_QtLgTNEHAxXlT_q_rzMsS?usp=sharing"
 
-studyarea <- "WB"
+studyarea <- "RIA" ## ABBC
+#studyarea <- "MBSK"
 
 simTimes <- list(start = 0, end = 100)
 sppEquivCol <- studyarea
