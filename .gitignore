@@ -2,17 +2,9 @@
 .Rhistory
 .RData
 .Ruserdata
-/data
-/outputs
-/cache
-*.tif.*
-*.tif
-/inputs
-/outputs
-*.pdf
-*.xml
-*/xlsx
-*.shp
-*.txt
 
-
+## project data directories
+cache/
+data/
+inputs/
+outputs/
