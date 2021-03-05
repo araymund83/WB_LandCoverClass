@@ -3,11 +3,10 @@ if (!require("Require")) {
   library(Require)
 }
 
-Require("PredictiveEcology/SpaDES.install") # install/load this package
+Require("PredictiveEcology/SpaDES.install")
+installSpaDES()
 
 studyarea <- "WB"
-## Require::setLibPaths("packages")
-# installSpaDES()
 
 source("01_init.R")
 source("02_paths.R")
