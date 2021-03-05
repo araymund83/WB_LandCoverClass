@@ -107,7 +107,7 @@ Based on the relative frequency of land cover classes and our literature review 
 
 ## BCR 6 in British Columbia and Alberta
 
-Table: (\#tab:ABBC) Vegetation type description for BCR 6:*British Columbia and Alberta*. Modified from Mahon(-@mahon2016).
+Table: (\#tab:ABBC) Forested type description for BCR 6:*British Columbia and Alberta*. Modified from Mahon(-@mahon2016).
 
 | Vegetation Type | Description |
 |-|-|
@@ -191,7 +191,6 @@ knitr::include_graphics("figures/age/BCR7_age.png")
 knitr::include_graphics("figures/age/BCR8_age.png")
 
 ```
-
 
 
 \newpage
