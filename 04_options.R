@@ -1,6 +1,7 @@
 ################################################################################
 ##  setting options
 ################################################################################
+raster::rasterOptions(default = TRUE)
 options(
   "spades.recoveryMode" = 2,
   # "spades.lowMemory" = TRUE,
@@ -12,7 +13,9 @@ options(
   "map.overwrite" = TRUE,
   "reproducible.futurePlan" = FALSE,
   "future.globals.maxSize" = 6000*1024^2,
-  "reproducible.inputPaths" = paths$inputPath,
+  "rasterMaxMemory" = rasterMaxMemory,
+  "rasterTmpDir" = scratchDirRas,
+  "reproducible.inputPaths" = paths1$inputhPath,
   "reproducible.cacheSaveFormat" = "qs",
   "reproducible.qsPreset" = "fast",
   "reproducible.useGDAL" = FALSE,
@@ -31,5 +34,8 @@ options(
   "spades.useRequire" = TRUE, ##asuming all pkgs are installed correctly
   "pemisc.useParallel" = TRUE
 )
-eventCaching <- c(".inputObjects", "init")
-useParallel <- TRUE
+
+Require(c("googledrive", "httr"))
+httr::set_config(httr::config(http_version = 0))
+drive_auth(email = userEmail, use_oob = quickPlot::isRstudioServer())
+message(crayon::silver("Authenticating as: "), crayon::green(drive_user()$emailAddress))
