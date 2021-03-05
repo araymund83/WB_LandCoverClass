@@ -8,7 +8,6 @@ message("raster package using", scratchDirRas, "as scratch directory")
 ## studyAreas
 paths1 <- list(
   ## use same cachePath for all data-prep steps before dynamic simulation
-  #cachePath = file.path("cache", studyarea,"dataPrepGIS", "preamble"),
   cachePath = file.path("cache", "dataPrepGIS", "preamble"),
   modulePath = "modules", 
   inputPath = "inputs/studyArea/data",
@@ -27,8 +26,7 @@ paths2 <- list(
 
 ## boreal data prep
 paths2a <- list(
-  #cachePath = file.path("cache", studyarea,"dataPrepGIS", "borealDataPrep"),
-  cachePath = file.path("cache","dataPrepGIS", "borealDataPrep"),
+  cachePath = file.path("cache", "dataPrepGIS", "borealDataPrep"),
   modulePath = "modules",
   inputPath = "inputs",
   outputPath = file.path("outputs")

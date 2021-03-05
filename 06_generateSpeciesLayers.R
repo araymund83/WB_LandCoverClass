@@ -1,23 +1,4 @@
-################################################################################
-## species layers
-################################################################################
-
-## this script makes a pre-simulation object that makes species layers
-## by running Biomass_speciesData. This is the longest module to run and,
-## unless the study area or the species needed change, it whould only
-## be run once (even if other things change, like the simulation rep,
-## or other modules). That's why caching is kept separate from the rest
-## of the simulation
-
-#do.call(SpaDES.core::setPaths, paths1)
-SpaDES.core::setPaths(cachePath = preambleCache,
-                      outputPath = Paths$inputPath)
-
-#get sppEquivalencies
-
-
-
-
+do.call(SpaDES.core::setPaths, paths1)
 
 objects2 <- list(
   #"nonTreePixels" = simOutPreamble$nonTreePixels,

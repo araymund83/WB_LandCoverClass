@@ -1,14 +1,3 @@
-if (!require("Require")) {
-  install.packages("Require")
-  library(Require)
-}
-
-Require("PredictiveEcology/SpaDES.install") # install/load this package
-
-## TODO: use self-contained project package library
-## Require::setLibPaths("packages")
-# installSpaDES()
-
 ## TODO: are all of these actually used?
 pkgs <- c(
   #"PredictiveEcology/reproducible@e8e1a726c3ae6ceae9233dc51195d5e51d1c7211", ## TODO: remove?
