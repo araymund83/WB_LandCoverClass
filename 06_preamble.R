@@ -1,4 +1,4 @@
-do.call(SpaDES.core::setPaths, paths1)
+#do.call(SpaDES.core::setPaths, paths1)
 
 bcrzip <- "https://www.birdscanada.org/download/gislab/bcr_terrestrial_shape.zip"
 
@@ -11,8 +11,7 @@ targetCRS <- paste(
 #################################################################################
 bcrshp <- Cache(prepInputs,
                 url = bcrzip,
-                cacheRepo = paths1$cachePath,
-                destinationPath = paths1$inputPath,
+                destinationPath = Paths$inputPath,
                 targetCRS = targetCRS,
                 fun = "sf::st_read"
 )
@@ -121,7 +120,7 @@ bcr6SKMB <- postProcess(SKMB,
 ## LCC 2005
 #################################################################################
 LCC05Ras <- reproducible::Cache(prepInputsLCC,
-                                destinationPath = paths1$inputPath,
+                                destinationPath = Paths$inputPath,
                                 studyArea = studyArea,
                                 year = 2005,
                                 filename2 = "LCC05_WB"
@@ -136,6 +135,19 @@ LCC05_6Ras <- reproducible::Cache(postProcess,
                                   filename2 = "LCC05_BCR6"
 )
 
+
+bcr6SKMB <- as_Spatial(bcr6SKMB)
+LCC05_SKMBRas <- reproducible::Cache(prepInputsLCC,
+                                     year = 2005,
+                                     studyArea = bcr6SKMB,
+                                  destinationPath = Paths$inputPath,
+                                  filename2 = "LCC05_SKMB")
+bcr6NWT <- as_Spatial(bcr6NWT)
+LCC05_NWTRas <- reproducible::Cache(postProcess,
+                                  LCC05Ras, 
+                                  studyArea = bcr6NWT,
+                                  destinationPath = Paths$inputPath,
+                                  filename2 = "LCC05_BCR6")
 
 
 #################################################################################
@@ -210,7 +222,7 @@ rawbiomassMap2001 <- Cache(prepInputs,
                            filename2 = "rawBiomassMap01")
 
 speciesLayers2001 <- Cache(loadkNNSpeciesLayers,
-                           dPath = paths2$inputPath,
+                           dPath = Paths$inputPath,
                            rasterToMatch = rasterToMatchLarge,
                            studyArea = studyAreaLarge,
                            sppEquiv = sppEquivalencies_CA,
@@ -253,10 +265,11 @@ firePointsReady <- projectInputs(firePoints,
 )
 
 firePoints <- Cache(prepInputs,
-                    destinationPath = paths3$inputPath,
+                    destinationPath = Paths$inputPath,
                     studyArea = studyAreaLarge,
-                    rasterToMathc = rasterToMatchLarge,
-                    fun = sf::st_read,
+                    rasterToMatch = rasterToMatchLarge,
+                    targetFile = "NFDB_point_20201029.shp",
+                    alsoExtract = "similar",
                     targetCRS = targetCRS,
                     filename2 = "firePointsWB",
                     url = paste0(

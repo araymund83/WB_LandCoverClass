@@ -8,7 +8,7 @@ options(
   "spades.useRequire" = TRUE,
   "LandR.assertions" = FALSE,
   "LandR.verbose" = 1,
-  "map.dataPath" = normPath(paths1$inputPath),
+  "map.dataPath" =Paths$inputPath,
   "map.useParallel" = TRUE,
   "map.overwrite" = TRUE,
   "reproducible.futurePlan" = FALSE,
@@ -19,7 +19,8 @@ options(
   "reproducible.cacheSaveFormat" = "qs",
   "reproducible.qsPreset" = "fast",
   "reproducible.useGDAL" = FALSE,
-  "reproducible.destinationPath" = normPath(paths1$inputPath),
+  #"reproducible.destinationPath" = normPath(paths1$inputPath),
+  "reproducible.polygonShortcut" = FALSE,
   "reproducible.inputPaths" = NULL,
   "reproducible.overwrite" = TRUE,
   "reproducible.useMemoise" = TRUE, # Brings cached stuff to memory during the second run
@@ -29,7 +30,7 @@ options(
   "reproducible.showSimilar" = TRUE,
   "reproducible.useCloud" = FALSE,
   "spades.moduleCodeChecks" = FALSE, ## Turn off all module's code checking
-  "spades.restartR.restarDir" = paths3$outputPath,
+  "spades.restartR.restarDir" = Paths$outputPath,
   "spades.useRequire" = TRUE, ##asuming all pkgs are installed correctly
   "pemisc.useParallel" = TRUE
 )

@@ -43,7 +43,7 @@
   #Assign colour
   sppColorVect <- LandR::sppColors(sppEquiv = sppEquivalencies_CA, 
                                    sppEquivCol = sppEquivCol,
-                                   palette = "Set3")
+                                   palette = "Paired")
   mixed <- structure("#D0FB84", names = "Mixed")
   sppColorVect[length(sppColorVect)+1] <- mixed
   attributes(sppColorVect)$names[length(sppColorVect)] <- "Mixed"
