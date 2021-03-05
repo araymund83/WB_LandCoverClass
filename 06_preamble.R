@@ -77,21 +77,20 @@ bcr6SA <-as_Spatial(bcr6SA)
 ## BCR6 Alberta - British Columbia
 bcr6ABBC <- reproducible::Cache(postProcess,
                                 ABBC, 
-                                studyArea = ABBC, 
-                                useSAcrs =  TRUE,
+                                studyArea = bcr6SA, 
                                 destinationPath = Paths$inputPath)
 
 ## BCR6 North West Territories
 bcr6NWT <- reproducible::Cache(postProcess,
                                NWT, 
                                studyArea = bcr6SA, 
-                               useSAcrs = TRUE,
                                destinationPath = Paths$inputPath)
 
 ## BCR6 Saskatchewan - Manitoba
-bcr6SKMB <- postProcess(SKMB, studyArea = bcr6SA, 
-                        useSAcrs = TRUE,
-                        destinationPath = Paths$inputPath)
+bcr6SKMB <- reproducible::Cache(postProcess,
+                                SKMB, 
+                                studyArea = bcr6SA, 
+                                destinationPath = Paths$inputPath)
 
 ## saving shapefiles (only do it once!)
 # st_write(bcr6SA, "inputs/studyArea/BCR6/BCR6.shp", driver = "ESRI Shapefile")
@@ -120,9 +119,23 @@ LCC05_6Ras <- reproducible::Cache(postProcess,
                                   destinationPath = Paths$inputPath,
                                   filename2 = "LCC05_BCR6")
 bcr6ABBC <- as_Spatial(bcr6ABBC)
-LCC05_ABBCRas <- reproducible::Cache(postProcess,
+LCC05_ABBCRas <- reproducible::Cache(prepInputsLCC,
+                                     year = 2005, 
+                                     destinationPath = Paths$inputPath,
+                                     studyArea = bcr6ABBC,
+                                     filename2 = "LCC05_BCR6")
+
+
+bcr6SKMB <- as_Spatial(bcr6SKMB)
+LCC05_SKMBRas <- reproducible::Cache(prepInputsLCC,
+                                     year = 2005,
+                                     studyArea = bcr6SKMB,
+                                  destinationPath = Paths$inputPath,
+                                  filename2 = "LCC05_SKMB")
+bcr6NWT <- as_Spatial(bcr6NWT)
+LCC05_NWTRas <- reproducible::Cache(postProcess,
                                   LCC05Ras, 
-                                  studyArea = bcr6ABBC,
+                                  studyArea = bcr6NWT,
                                   destinationPath = Paths$inputPath,
                                   filename2 = "LCC05_BCR6")
 
@@ -153,6 +166,13 @@ standAgeMap2011 <- Cache(LandR::prepInputsStandAgeMap,
                              startTime = 1970
                           )
 
+ hist(standAgeMap2011,
+     breaks = c(0,10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190),
+     main = "Distribution of stand ages in the WB", 
+     xlab = "Age (yrs)", ylab ="Frequency",
+     col = "springgreen")
+
+ageInfo <- hist(standAgeMap2011)
 #################################################################################
 ## Wetlands
 #################################################################################
@@ -170,17 +190,18 @@ standAgeMap2011 <- Cache(LandR::prepInputsStandAgeMap,
 #                                  wetlandWB,
 #                                  studyArea = bcr6SA, 
 #                                  useSAcrs = TRUE)
+
+studyArea <- bcr6ABBC
 studyAreaLarge<- studyArea 
-rasterToMatchLarge <- LCC05Ras
-rstLCC <- LCC05Ras
-studyArea <- bcrABBC
-rasterToMatch <- LCC05_ABBCRas
+rasterToMatchLarge <- LCC05_ABBCRas
+rstLCC <- LCC05_ABBCRas
+#studyArea <- bcrABBC
+rasterToMatch <- rasterToMatchLarge
 
 flammableMap <- LandR::defineFlammable(LandCoverClassifiedMap = rstLCC,
                                        nonFlammClasses = c(33, 36:39),
                                        mask = rasterToMatchLarge)
-biomassMapURL <- paste0(
-  "https://ftp.maps.canada.ca/pub/nrcan_rncan/Forests_Foret/",
+biomassMapURL <- paste0("https://ftp.maps.canada.ca/pub/nrcan_rncan/Forests_Foret/",
   "canada-forests-attributes_attributs-forests-canada/2001-attributes_attributs-2001/",
   "NFI_MODIS250m_2001_kNN_Structure_Biomass_TotalLiveAboveGround_v1.tif")
 
@@ -214,12 +235,26 @@ speciesLayers2001 <- Cache(loadkNNSpeciesLayers,
                  rasterToMatch = rasterToMatchLarge,
                  filename2 = "vegMap.tif")
               
+ ecoregionsURL <- paste0("https://drive.google.com/file/d/",
+                         "1y2-mM7NBxEvdeoDENkwbQDa-rdQjiutx/view?usp=sharing")
+ ecoregionsMap <- Cache(prepInputs, 
+                      destinationPath = Paths$inputPath,
+                      url = ecoregionsURL,
+                      fun = "read_sf",
+                      studyArea = studyAreaLarge,
+                      rasterToMatch = rasterToMatchLarge,
+                      maskWithRTM = TRUE,
+                      method = "bilinear",
+                      datatype = "INT2U",
+                      filename2 = "ecoregionsMap"
+ )
 
 firePoints <- Cache(prepInputs,
                     destinationPath = Paths$inputPath,
                     studyArea = studyAreaLarge,
-                    rasterToMathc = rasterToMatchLarge,
-                    fun = sf::st_read,
+                    rasterToMatch = rasterToMatchLarge,
+                    targetFile = "NFDB_point_20201029.shp",
+                    alsoExtract = "similar",
                     targetCRS = targetCRS,
                     filename2 = "firePointsWB",
                     url = paste0("http://cwfis.cfs.nrcan.gc.ca/downloads/nfdb/",

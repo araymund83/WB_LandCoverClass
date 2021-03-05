@@ -25,11 +25,12 @@ activeDir <- if (dir.exists(scratchDirRas)) {
 }
 cloudFolderID <- "https://drive.google.com/drive/folders/1AuEcaGDQ20_QtLgTNEHAxXlT_q_rzMsS?usp=sharing"
 
-studyarea <- "RIA" ## ABBC
+
+studyarea <- "ABBC"
 #studyarea <- "MBSK"
 
-simTimes <- list(start = 0, end = 100)
-sppEquivCol <- studyarea
+simTimes <- list(start = 0, end = 50)
+sppEquivCol <- sppEquivCol
 vegLeadingProportion <- 0 # indicates what proportion the stand must be in one species group for it to be leading.
 successionTimestep <- 10  # for dispersal and age reclass.
 fireEpoch <- c(1970, 2019)

@@ -2,9 +2,9 @@
 ## main simulation
 ################################################################################
 
-do.call(SpaDES.core::setPaths, paths3) # Set them here so that we don't have to specify at each call to Cache
-
-simTimes <- list(start = 0, end = 100)
+SpaDES.core::setPaths(cachePath = simulationsCache,
+                      outputPath = paths$outputPath)
+simTimes <- list(start = 0, end = 50)
 
 modulesLandR <- list("Biomass_core")
 
@@ -47,11 +47,11 @@ paraSim <- list(
     
   ),
   scfmLandcoverInit = list(
-    ".plotInitialTime" = NA
+    ".plotInitialTime" = NA,
     #"fireRegimePolys" = simOutPreamble$fireRegimePolygons,
     #"sliverThreshold" = 1e10,
-    #"flammableMap" = simOutPreamble$flammabilityMap,
-    #"vegMap" = simOutPreamble$vegMap
+    "flammableMap" = outSimSppLayers$flammableMap,
+    "vegMap" = vegMap
   ),
   scfmSpread = list(
     "pSpread" = 0.235,
@@ -65,12 +65,14 @@ paraSim <- list(
   scfmDriver = list(
     #"targetN" = 1000,
     "studyArea" = studyArea,
-    "fireRegimeRas" = simOutSppLayers$fireRegimeRas,
-    "fireRegimePolys" = simOutSppLayers$fireRegimePolys,
-    "scfmRegimePars" = simOutSppLayers$scfmRegimePars,
-    "landscapeAttr" = simOutSppLayers$landscapeAttr,
-    "flammableMap" = simOutSppLayers$flammableMap,
+    "fireRegimeRas" = outSimSppLayers$fireRegimeRas,
+   # "fireRegimePolys" = outSimSppLayers$fireRegimePolys,
+    "scfmRegimePars" = outSimSppLayers$scfmRegimePars,
+    "landscapeAttr" = outSimSppLayers$landscapeAttr,
+    "flammableMap" = outSimSppLayers$flammableMap,
     ".useParallel" = FALSE,
+    #"useCloudCache" = TRUE,
+    #"cloudFolderID" = cloudFolderID,
     "quickCalibration" = FALSE # <~~~~~~~ Should only be used for DEVELOPMENT, not PRODUCTION!
   ),
   scfmRegime = list(
@@ -85,15 +87,15 @@ paraSim <- list(
   scfmEscape = list(
     "returnInterval" = 1
   ),
-  # scfmSpread = list(
-  #   "pSpread" = 0.235,
-  #   "returnInterval" = 1,
-  #   "startTime" = simTimes$start,
-  #   ".plotInitialTime" = 1,
-  #   ".plotInterval" = successionTimestep,
-  #   ".saveInitialTime" = NA,
-  #   ".saveInterval" = 1
-  # ),  
+   scfmSpread = list(
+     "pSpread" = 0.235,
+     "returnInterval" = 1,
+     "startTime" = simTimes$start,
+     ".plotInitialTime" = 1,
+     ".plotInterval" = successionTimestep,
+    ".saveInitialTime" = NA,
+     ".saveInterval" = 1
+ ),  
   Biomass_regeneration = list(
     "fireTimestep" = 1
     , "fireInitialTime" = simTimes$start + 1
@@ -112,24 +114,24 @@ simObjects <- list(
   ,"sppEquiv" = sppEquivalencies_CA
   ,"sppEquivCol" = sppEquivCol
   ,"sppColorVect" = sppColorVect
-  #,"vegMap" = simOutPreamble$vegMap
-  #,"flammableMap" = simOutPreamble$flammabilityMap
+  ,"vegMap" = vegMap
+  ,"flammableMap" = flammableMap
   #,"fireRegimePolys" = simOutPreamble$fireRegimePolygons
-  #,"standAgeMap" = simOutPreamble$standAgeMap2011
+  ,"standAgeMap" = standAgeMap2011
   ,"omitNonVegPixels" = TRUE
-  ,"biomassMap" = simOutSppLayers[["biomassMap"]]
-  ,"cohortData" = simOutSppLayers[["cohortData"]]
-  ,"ecoDistrict" = simOutSppLayers[["ecodistrict"]]
-  ,"ecoregion" = simOutSppLayers[["ecoregion"]]
-  ,"ecoregionMap" = simOutSppLayers[["ecoregionMap"]]
-  ,"pixelGroupMap" = simOutSppLayers[["pixelGroupMap"]]
-  ,"minRelativeB" = simOutSppLayers[["minRelativeB"]]
-  ,"species" = simOutSppLayers[["species"]]
-  ,"speciesLayers" = simOutSppLayers[["speciesLayers"]]
-  ,"speciesEcoregion" = simOutSppLayers[["speciesEcoregion"]]
-  ,"sufficientLight" = simOutSppLayers[["sufficientLight"]]
-  ,"rawBiomassMap" = simOutSppLayers[["rawBiomassMap"]]
-  , "cloudFolderID" = cloudFolderID
+  ,"biomassMap" = outSimSppLayers[["biomassMap"]]
+  ,"cohortData" = outSimSppLayers[["cohortData"]]
+  ,"ecoDistrict" = outSimSppLayers[["ecodistrict"]]
+  ,"ecoregion" = outSimSppLayers[["ecoregion"]]
+  ,"ecoregionMap" = outSimSppLayers[["ecoregionMap"]]
+  ,"pixelGroupMap" = outSimSppLayers[["pixelGroupMap"]]
+  ,"minRelativeB" = outSimSppLayers[["minRelativeB"]]
+  ,"species" = outSimSppLayers[["species"]]
+  ,"speciesLayers" = outSimSppLayers[["speciesLayers"]]
+  ,"speciesEcoregion" = outSimSppLayers[["speciesEcoregion"]]
+  ,"sufficientLight" = outSimSppLayers[["sufficientLight"]]
+  ,"rawBiomassMap" = outSimSppLayers[["rawBiomassMap"]]
+  #, "cloudFolderID" = cloudFolderID
 )
 succTS <- c(seq(simTimes$start, simTimes$end,
                 by = paraSim$Biomass_core$successionTimestep), simTimes$end)
@@ -149,11 +151,11 @@ outputsLandR <- data.frame(
                         "burnDT",
                         "speciesTable",
                         "speciesTableEcoregion"), each = length(succTS)),
-   saveTime = c(rep(succTS, times = 8))
+   saveTime = c(rep(succTS, times = 5))
 )
 
 simOutputs <- data.frame(objectName = objs,
-                         saveTime = rep(seq(0, 1000,50), each = length(objs)),
+                         saveTime = rep(seq(0, 50, 10), each = length(objs)),
                          eventPriority = 1,
                          stringAsFactors = FALSE)
 
@@ -186,5 +188,5 @@ mySimOut <- simInitAndSpades(times = simTimes
                              ,modules = allModules
                              ,objects = simObjects
                              ,outputs = outputsLandR
-                             ,paths = paths3
+                             ,paths = getPaths()
                              ,loadOrder = unlist(allModules), debug = 1)

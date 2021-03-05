@@ -8,6 +8,7 @@ paths <- list(
 
 inputsCache <- checkPath(file.path(paths$cachePath, "inputs", studyarea), create = TRUE)
 preambleCache <- checkPath(file.path(paths$cachePath, "preamble", studyarea), create = TRUE)   
+simulationsCache <- checkPath(file.path(paths$cachePath, "sims", studyarea), create = TRUE)
 
 SpaDES.core::setPaths(modulePath = paths$modulePath, 
                       inputPath = paths$inputPath, 

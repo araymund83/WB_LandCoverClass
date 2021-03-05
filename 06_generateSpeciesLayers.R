@@ -22,21 +22,22 @@ SpaDES.core::setPaths(cachePath = preambleCache,
 objects2 <- list(
   #"nonTreePixels" = simOutPreamble$nonTreePixels,
   "omitNonVegPixels" = TRUE,
-  "cloudFolderID" = cloudFolderID,
-  "rasterToMatch" = LCC05_ABBCRas,
+  #"cloudFolderID" = cloudFolderID,
+  "rasterToMatch" = rasterToMatch,
   "rasterToMatchLarge" = rasterToMatchLarge,
   "sppColorVect" = sppColorVect,
   "sppEquiv" = sppEquivalencies_CA,
   "speciesLayers" = speciesLayers2001,
-  "studyArea" = bcr6ABBC,
+  "studyArea" = studyArea,
   "studyAreaLarge" = studyAreaLarge,
   #"studyAreaReporting" = simOutPreamble$studyAreaReporting,
   "rstLCC " = rstLCC,
   "vegMap" = vegMap,
-  #"firePoints" = firePoints,
+  "firePoints" = firePoints,
   "standAgeMap" = standAgeMap2011,
   "rawBiomassMap" = rawbiomassMap2001,
-  "flammableMap" = flammableMap
+  "flammableMap" = flammableMap,
+  "ecoregions" = ecoregionsMap
   #"sliverThreshold" = 1e10
 
 )
@@ -92,11 +93,11 @@ parameters2 <- list(
  #       "Pinu_con" = 97
  #     )
  #   ),
- # Biomass_speciesData = list(
-  #    "omitNonVegPixels" = TRUE,
-  #    "sppEquivCol" = sppEquivCol,
-   #   "types" = "KNN"
-  # ),
+  Biomass_speciesData = list(
+      "omitNonVegPixels" = TRUE,
+      "sppEquivCol" = sppEquivCol,
+      "types" = "KNN"
+  ),
  Biomass_borealDataPrep = list(
     "sppEquivCol" = sppEquivCol,
     "speciesUpdateFunction" = list(
@@ -108,15 +109,15 @@ parameters2 <- list(
                                            (logAge + cover | ecoregionGroup)))
      , "forestedLCCClasses" =  forestedLCCClasses
      , "LCCClassesToReplaceNN" = LCCClassesToReplaceNN
-     , ".useCache" = c(".inputObjects", "init")
+     #, ".useCache" = c(".inputObjects", "init")
 #     #, "runName" = runName
      ,"standAgeMap" = standAgeMap2011
-     , "rstLCC" = LCC05_6Ras
+     , "rstLCC" = rstLCC
      , "rawBiomassMap" = rawbiomassMap2001
      , "speciesLayers" = speciesLayers2001
      , "successionTimestep" = 10
      , "subsetDataBiomassModel" = 10
-     , "useCloudCacheForStats" = TRUE
+     #, "useCloudCacheForStats" = TRUE
      , ".useCache" = c(".inputObjects", "init")
      , "exportModels" = "all"
      , "pixelGroupAgeClass" = 10
@@ -157,11 +158,11 @@ dataPrepOutputs2001 <- data.frame(objectName = c("cohortData",
                                            "standAgeMap2001_borealDataPrep.rds",
                                            "rawBiomassMap2001_borealDataPrep.rds"))
 
-#sppLayersFile <- file.path(paths$inputPath, paste0("simOutSpeciesLayers_", 
-                                                  # studyarea, ".qs"))
+sppLayersFile <- file.path(paths$inputPath, paste0("simOutSpeciesLayers_", 
+                                                   studyarea, ".qs"))
 #speciesModules <- c("PSP_Clean", "Biomass_speciesData", "Biomass_borealDataPrep",
   #                 "Biomass_speciesParameters", "scfmLandcoverInit", "scfmRegime")
-speciesModules <- c("Biomass_borealDataPrep")
+speciesModules <- c("Biomass_speciesData", "Biomass_borealDataPrep", "scfmLandcoverInit", "scfmRegime")
 
 simOutSppLayers <- Cache(simInitAndSpades,
                          times = list(start = simTimes$start, end = simTimes$start + 1)
@@ -172,10 +173,10 @@ simOutSppLayers <- Cache(simInitAndSpades,
                          , paths = getPaths()
                          , debug = TRUE
                          , .plotInitialTime = NA
-                         , purge = 7
                          , loadOrder = unlist(speciesModules)
 )
 saveSimList(simOutSppLayers, sppLayersFile)
+outSimSppLayers <- qs::qread((file.path(Paths$inputPath, "simOutSpeciesLayers_ABBC.qs")))
 
 scfmDriverObjs <- list(
   'studyArea' = simOutPreamble$studyArea,
