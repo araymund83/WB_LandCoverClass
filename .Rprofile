@@ -25,3 +25,6 @@ if (!dir.exists(pkgDir)) {
     dir.create(pkgDir, recursive = TRUE)
 }
 .libPaths(pkgDir)
+
+message("Using project package library: '", pkgDir, "'.")
+

@@ -3,14 +3,14 @@
 #--------------------------------------------
 
 ## scratch directory for raster operations (see 01-init.R)
-message("raster package using", scratchDirRas, "as scratch directory")
+message("The 'raster' package is using ", scratchDirRas, " as scratch directory.")
 
 ## studyAreas
 paths1 <- list(
   ## use same cachePath for all data-prep steps before dynamic simulation
   cachePath = file.path("cache", "dataPrepGIS", "preamble"),
   modulePath = "modules", 
-  inputPath = "inputs/studyArea/data",
+  inputPath = file.path("inputs", "studyArea"),
   outputPath = file.path("outputs")
 )
 

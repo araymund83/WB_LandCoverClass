@@ -46,7 +46,7 @@ options(
   "reproducible.showSimilar" = TRUE,
   "reproducible.useCloud" = FALSE,
   "spades.moduleCodeChecks" = FALSE, ## Turn off all module's code checking
-  "spades.restartR.restarDir" = Paths$outputPath,
+  "spades.restartR.restarDir" = paths1$outputPath,
   "spades.useRequire" = TRUE, ##asuming all pkgs are installed correctly
   "pemisc.useParallel" = TRUE
 )
