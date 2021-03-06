@@ -1,5 +1,5 @@
 ## TODO: are all of these actually used?
-pkgs <- c(
+GHpkgs <- c(
   #"PredictiveEcology/reproducible@e8e1a726c3ae6ceae9233dc51195d5e51d1c7211", ## TODO: remove?
   "PredictiveEcology/reproducible@development",
   "PredictiveEcology/SpaDES.core@development",
@@ -12,8 +12,10 @@ pkgs <- c(
   "PredictiveEcology/quickPlot@development",
   "PredictiveEcology/fireSenseUtils@development",
   "ianmseddy/LandR.CS",
-  "PredictiveEcology/usefulFuns",
-  
+  "PredictiveEcology/usefulFuns"
+)
+
+CRANpkgs <- c(
   ## TODO: most of these get pulled in as dependencies already; cleanup
   "bookdown",
   "data.table",
@@ -35,7 +37,11 @@ pkgs <- c(
   "tinytex"
 )
 
-Require(pkgs, require = FALSE) ## TODO: check which do need to be loaded
+## install but don't load packages yet
+Require(GHpkgs, require = FALSE)
+Require(CRANpkgs, require = FALSE)
 
 ## don't need to load packages for modules; done automatically but ensure they are installed.
-makeSureAllPackagesInstalled(paths2$modulePath)
+SpaDES.install::makeSureAllPackagesInstalled(paths2$modulePath)
+
+Require(c("magrittr", "raster", "reproducible", "SpaDES.core", "sf"))
