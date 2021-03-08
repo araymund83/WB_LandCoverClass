@@ -38,5 +38,5 @@ simTimes <- list(start = 0, end = 100)
 sppEquivCol <- studyarea
 successionTimestep <- 10  # for dispersal and age reclass.
 useParallel <- TRUE
-vegLeadingProportion <- 0 # indicates what proportion the stand must be in one species group for it to be leading.
+vegLeadingProportion <- 0.8 # indicates what proportion the stand must be in one species group for it to be leading.
 ## TODO: why is vegLeadingProportion zero?!
