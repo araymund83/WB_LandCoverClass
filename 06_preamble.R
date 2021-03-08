@@ -101,10 +101,11 @@ bcr6NWT <- reproducible::Cache(postProcess,
 )
 
 ## BCR6 Saskatchewan - Manitoba
-bcr6SKMB <- postProcess(SKMB,
-                        studyArea = bcr6SA,
-                        useSAcrs = TRUE,
-                        cacheRepo = paths1$cachePath
+bcr6SKMB <- reproducible::Cache(postProcess,
+                                SKMB,
+                                studyArea = bcr6SA,
+                                useSAcrs = TRUE,
+                                cacheRepo = paths1$cachePath
 )
 
 ## saving shapefiles (only do it once!)
@@ -134,14 +135,21 @@ LCC05_6Ras <- reproducible::Cache(postProcess,
                                   studyArea = bcr6SA,
                                   filename2 = "LCC05_BCR6"
 )
+bcr6ABBC <- as_Spatial(bcr6ABBC)
+LCC05_ABBCRas <- reproducible::Cache(prepInputsLCC,
+                                     year = 2005,
+                                     destinationPath = Paths$inputPath,
+                                     studyArea = bcr6ABBC,
+                                     filename2 = "LCC05_ABBC"
+                                     )
 
 
 bcr6SKMB <- as_Spatial(bcr6SKMB)
 LCC05_SKMBRas <- reproducible::Cache(prepInputsLCC,
                                      year = 2005,
                                      studyArea = bcr6SKMB,
-                                  destinationPath = Paths$inputPath,
-                                  filename2 = "LCC05_SKMB")
+                                     destinationPath = Paths$inputPath,
+                                     filename2 = "LCC05_SKMB")
 bcr6NWT <- as_Spatial(bcr6NWT)
 LCC05_NWTRas <- reproducible::Cache(postProcess,
                                   LCC05Ras, 
@@ -165,16 +173,20 @@ standAgeMapURL <- paste0(
 
 ## TODO: use LandR::prepInputsStandAgeMap()
 
-standAgeMap2011 <- Cache(prepInputs,
-                         destinationPath = paths1$inputPath,
-                         url = standAgeMapURL,
-                         fun = "raster::raster",
-                         studyArea = studyArea,
-                         # maskWithRTM = TRUE,
+standAgeMap2011 <- Cache(LandR::prepInputsStandAgeMap,
+                         destinationPath = Paths$inputPath,
+                         ageURL = standAgeMapURL,
+                         agefun = "raster::raster",
+                         studyArea = studyAreaLarge,
+                         rasterToMatch = rasterToMatchLarge,
+                         #maskWithRTM = TRUE,
                          method = "bilinear",
+                         useCache = TRUE,
                          datatype = "INT2U",
-                         filename2 = "standAgeMap.tif"
+                         filename2 = "standAgeMap.tif",
+                         startTime = 1970
 )
+
 
 #################################################################################
 ## Wetlands
