@@ -4,9 +4,9 @@
 
 .starttime <- Sys.time()
 message("Your current temporary directory is ", tempdir())
-studyarea <- "WB"
 
 ## user- and machine-specific settings
+cacheDB <- "sqlite" ## default cache backend
 machine <- Sys.info()[["nodename"]]
 user <- Sys.info()[["user"]]
 if (user == "araymundo") {
@@ -16,6 +16,7 @@ if (user == "araymundo") {
   }
   userEmail <- "araymund83@gmail.com"
 } else if (user == "achubaty") {
+  cacheDB <- "postgresql"
   scratchDirRas <- if (machine == "forcast03") {
     file.path("/tmp/scratch/posthocbinning")
   } else {

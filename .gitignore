@@ -1,6 +1,7 @@
-.Rproj.user
-.Rhistory
 .RData
+.Renviron
+.Rhistory
+.Rproj.user
 .Ruserdata
 
 ## project data directories
@@ -8,3 +9,4 @@ cache/
 data/
 inputs/
 outputs/
+packages/
