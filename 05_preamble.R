@@ -301,7 +301,9 @@ ecoregionsMap <- Cache(prepInputs,
 
 ## species equivalencies
 sppEquivCol <- "WB"
-sppEquiv <- data("sppEquivalencies_CA", package = "LandR")
+data("sppEquivalencies_CA", package = "LandR")
+sppEquiv <- sppEquivalencies_CA
+rm(sppEquivalencies_CA)
 
 ## TODO: is this needed?
 # sppEquiv[grep("Pin", LandR), `:=`(EN_generic_short = "Pine",
