@@ -1,9 +1,9 @@
 ---
 title: "Western Boreal Land Cover Classes"
-author: "Steve Cumming, Ana Raymundo and Isolde Lane Shaw"
+author: "Isolde Lane Shaw, Ana Raymundo and Steve Cumming"
 date: "12/3/2020"
 output:
-  bookdown::html_document2: 
+  #bookdown::html_document2: 
   bookdown::pdf_document2: 
   includes:
     toc: yes
@@ -22,7 +22,8 @@ bibliography : references.bib
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE, fig.align = "center", knit.duplicate.label = "allow")
-#rmarkdown::render("WB_LandCoverClasses_pdf.Rmd", output_format = c("html_document", "pdf_document"))
+#rmarkdown::render("WB_LandCoverClasses.Rmd", output_format = "html_document")
+#rmarkdown::render(input = "WB_LandCoverClasses.Rmd", output_format = "pdf_document")
 ```
 
 
@@ -33,14 +34,14 @@ knitr::opts_chunk$set(echo = FALSE, fig.align = "center", knit.duplicate.label =
 Ecosystems are complex and highly integrated entities defined by assemblages of species, the physical environment, and the processes that regulate them. Vegetation heterogeneity has a strong influence on the diversity and distribution of other species. Structurally complex habitats may provide more niches and different ways of exploiting the environmental resources and increasing species diversity [@tews2004; @lawler2004].  
 
 
-The complexity and heterogeneity of the land cover and vegetation in the Western Boreal Project area creates challenges in effective modeling due to finite data resources. In order to draw well-substantiated conclusions on the diversity and abundance of bird species across the region based upon the underlying land cover it is necessary to categorize land cover into broad land cover and age classes to avoid spreading the data on bird/vegetation relationships too thin. A successful example of this comes from the Alberta Biodiversity Monitoring Institute (ABMI), as shown in Figure \@ref(fig:oven) [@albertabiodiversitymonitoringinstitute2019]. 
+The complexity and heterogeneity of the land cover and vegetation in the Western Boreal Project (WBP) area creates challenges in effective modeling due to finite data resources. In order to draw well-substantiated conclusions on the diversity and abundance of bird species across the region based upon the underlying land cover it is necessary to categorize land cover into broad land cover and age classes to avoid spreading the data on bird/vegetation relationships too thin. A successful example of this comes from the Alberta Biodiversity Monitoring Institute (ABMI), as shown in Figure \@ref(fig:oven) [@albertabiodiversitymonitoringinstitute2019]. 
 
 
 ```{r oven, fig.cap = "Example of species-habitat associations for Ovenbird from the AMBI and Boreal Avian Modeling Project.", out.width="90%"}
 knitr::include_graphics("figures/ABMIExample.jpg")
 ```
 
-The Western Boreal Project (WBP) study area is large and it includes a significant heterogeneity of plant communities. However, specific characteristics are shared among the different provinces as established by Canada's Ecological Framework [-@zotero-20]. Based on this information, it was decided that the study area should be divided into several sub-regions, to allow each region to be examined based on the most appropriate land cover classification system. 
+The WBP study area is large and it includes a significant heterogeneity of plant communities. However, specific characteristics are shared among the different provinces as established by Canada's Ecological Framework [-@zotero-20]. Based on this information, it was decided that the study area should be divided into several sub-regions, to allow each region to be examined based on the most appropriate land cover classification system. 
  We, therefore, aimed to:
  
    *1) Determine an appropriate manner to divide the Western Boreal Project study area into sub-regions.* and
@@ -49,16 +50,16 @@ The Western Boreal Project (WBP) study area is large and it includes a significa
 
 # Methods
 
-We carried out an extensive literature review of both materials describing the vegetation found in the study area and the methods used to classify the different cover classes. The local forest inventories allowed us to list the species and species assemblages described and used for vegetation categorization within potential sub-regions of interest for this project, and the age classes most commonly used  [@theforestrycorp2004; @saaskatchewanenvironment2004; @resourceinformationmanagementbranch.albertasustainableresourcedevelopment2005; @forestresources2006; @lisgo2008; @forestmanagementbranch2016]. The studies at national level allowed us to corroborate the hierarchical vegetation categorization of forested lands and the different ways in which stand age is classified [@power2006; @cosco2011].
+We carried out an extensive literature review of both materials describing the vegetation found in the study area and the different methods used to classify cover classes. The local forest inventories allowed us to list the species and species assemblages described and used for vegetation categorization within potential sub-regions of interest for this project, and the stand-age classes most commonly used  [@theforestrycorp2004; @saaskatchewanenvironment2004; @resourceinformationmanagementbranch.albertasustainableresourcedevelopment2005; @forestresources2006; @lisgo2008; @forestmanagementbranch2016]. The studies at national level allowed us to corroborate the hierarchical vegetation categorization of forested lands and the different ways in which stand age is classified [@power2006; @cosco2011].
 
 As the main objective of the project is focused on birds, we used Bird Conservation Regions (BCR) and the Province boundaries to obtain a sub-region division of the study area [@environmentcanada2013]. From this, we determined firstly, which potential BCR/Province groupings had the most similarities and would allow available bird data coverage from the Boreal Avian Modelling Project (BAM) to be equitably divided, and then, once sub-regions were determined, which land cover classes were most important in each one [@cumming2010; @barker2015].  
 
-The land cover classification classes for each sub-region were obtained using the Land Cover Classification of Canada 2005 (LCC05) [@latifovic2008]. LCC05 has 39 habitat categories. Categories 1 to 15 represent forested classes and 16 to 39 non-forested ones. Stand age was obtained from Natural Resources Canada[@beaudoin2017a].
+The land cover classification classes for each sub-region were obtained using the Land Cover Classification of Canada 2005 (LCC05) [@latifovic2008]. LCC05 has 39 habitat categories. Categories 1 to 15 represent forested classes and 16 to 39 non-forested ones. Stand-age distribution was obtained from Natural Resources Canada[@beaudoin2017a].
 
 # Results
 
 ## Sub-regions
-The Western Boreal study area was divided into sub-regions following the BCR boundaries, except for BCR 6, which given its extention and vegetation heterogeneity, it was split into three sub-regions: the northern area in Yukon, the Northwest Territories and Nunavut, the western area in British Columbia and Alberta, and the eastern area in Saskachewan and Manitoba (Fig.\@ref(fig:area)).  
+The Western Boreal study area was divided into sub-regions following the BCR boundaries, except for BCR 6, which given its extension and vegetation heterogeneity, it was split into three sub-regions: the northern area in Yukon, the Northwest Territories and Nunavut, the western area in British Columbia and Alberta, and the eastern area in Saskatchewan and Manitoba (Fig.\@ref(fig:area)).  
 
 ```{r area, echo = FALSE, fig.cap = "Western Boreal Project sub-regions", out.width="60%"}
 knitr::include_graphics("figures/WB_LandCoverRegions.PNG")
@@ -81,109 +82,101 @@ knitr::include_graphics("figures/lcc/LCC_BCR6_MBSKprop.png")
 knitr::include_graphics("figures/lcc/LCC_BCR6_NWTprop.png")
 ```
 
-```{r bcr7, fig.cap = "Relative frequency of Land Cover Classes for BCR 7", out.width="60%"}
-knitr::include_graphics("figures/lcc/LCC_BCR7prop.png")
-```
+Based on the relative frequency of land cover classes and our literature review of vegetation groupings, we determined that the following forested categories should be included for each sub-region.
 
-```{r bcr8, fig.cap = "Relative frequency of Land Cover Classes for BCR 8", out.width="60%"}
-knitr::include_graphics("figures/lcc/LCC_BCR8prop.png")
-```
-
-
-Based on the relative frequency of land cover classes and our literature review of vegetation groupings, we determined that the following categories should be included for each sub-region.
-
-```{r table}
-# ABBCURL <- paste0("https://drive.google.com/file/d/",
-# "1mW1kyGgy9bxpI7yrAJ7DPe7QJXRx11JI/view?usp=sharing")
-#   
-# vegClassABBC <-  reproducible::prepInputs( 
-#                                       destinationPath = "inputs",
-#                                       url = ABBCURL,
-#                                       fun = "read.csv",
-#                                       overwrite = TRUE)
-# 
-# knitr::kable(vegClassABBC, caption = "An example")
-```
 
 ## BCR 6 in British Columbia and Alberta
 
-Table: (\#tab:ABBC) Forested type description for BCR 6:*British Columbia and Alberta*. Modified from Mahon(-@mahon2016).
+Table: (\#tab:ABBC) Forest Cover types description for BCR 6:*British Columbia and Alberta*. Modified from Mahon(-@mahon2016).
 
-| Vegetation Type | Description |
+| Forest Cover Type | Description |
 |-|-|
-| Pine dominant | Upland. Stands where combined jack pine and lodgepole pine are the leading species and  deciduous species comprise less than 20% |
-| Black spruce | Upland. Stands where black spruce is the leading species, the soil regime is  dry or mesic and larch = 0% or stands where black spruce is the leading species,  the soil regime is wet and the combined species trembling aspen + balsam poplar +  balsam fir + jack pine more than 0% |
-| White spruce | Upland. Stands where combined white spruce and balsam fir comprise more than 80% |
-| Deciduous | Upland. Stands where combined trembling aspen, balsam poplar,  and white birch comprise more than 80%.  Mesic(M) and hygric (W) stands are differentiated |
-| Mixedwood | Upland. Stands where deciduous more than 20% and combined conifer species (jack pine, lodgepole pine, white spruce, balsam fir, and black spruce more than 20%.  Mesic(M) and hygric (W) stands are differentiated |
-| Wetland | Lowland-wetland. Stands where black spruce is the leading species and the soil regime  is aquatic or stands where black spruce is the leading species,  the soil regime is mesic and larch more than 0 or stands where black spruces  is the leading species, the soil regime is wet and the combined species: trembling aspen + balsam poplar + balsam fir + jack pine = 0 |
+| Pine dominant | Stands where combined jack pine and lodgepole pine are the leading species and  deciduous species comprise less than 20%.|
+| Black spruce | Stands where black spruce is the leading species and larch = 0% or stands where black spruce is the leading species, and the combined species trembling aspen + balsam poplar +  balsam fir + jack pine more than 0%.|
+| White spruce | Stands where combined white spruce and balsam fir comprise more than 80%.|
+| Deciduous | Stands where combined trembling aspen, balsam poplar,  and white birch comprise more than 80%.|
+| Mixedwood | Stands where deciduous more than 20% and combined conifer species (jack pine, lodgepole pine, white spruce, balsam fir, and black spruce more than 20%.|
+| Black Spruce Wetland | Stands where black spruce is the leading species or stands where black spruce is the leading species, and larch more than 0 or stands where black spruce  is the leading species, and the combined species: trembling aspen + balsam poplar + balsam fir + jack pine = 0.|
 
 ## BCR6 in Northwest Territories and Yukon 
 
-Table: (\#tab:NWT) Vegetation type description for BCR 6:*Northwest Territories and Yukon*.
+Table: (\#tab:NWT) Forest Cover types description for BCR 6:*Northwest Territories and Yukon*.
 
-|Vegetation Type| Description|
-|---------------|-------------|
-|Spruce dominant | Spruce stands where the combined spruce component is 80% or more |
-|Deciduous dominant | Stands where the deciduous tree component is 80% or more |
-|Coniferous mix | Coniferous trees component is 80% or more |
-|Coniferous/deciduous mix | Mixed stands where neither deciduous or coniferous component is 80% or more |
-|Forested wetland | Lowland-wetland with poor drainage and tree cover sparse at 40% or less, where black spruce and larch species component is 80% or more.  Moss, lichen and/or herb understory. |
+|Forest Cover Type| Description|
+|-|-|
+|Spruce dominant | Spruce stands where the combined spruce component is 80% or more.|
+|Deciduous dominant | Stands where the deciduous tree component is 80% or more.|
+|Coniferous mix | Coniferous trees component is 80% or more.|
+|Coniferous/deciduous mix | Mixed stands where neither deciduous or coniferous component is 80% or more.|
+|Forested wetland | Lowland-wetland with poor drainage and tree cover sparse at 40% or less, where black spruce and larch species component is 80% or more.  Moss, lichen and/or herb understory.|
 
 ## BCR 6 in Saskatchewan and Manitoba
 
-Table: (\#tab:SKMB) Vegetation type description for BCR 6:*Saskatchewan and Manitoba*.
+Table: (\#tab:SKMB) Forest Cover types description for BCR 6:*Saskatchewan and Manitoba*.
 
-|Vegetation Type| Description|
-|---------------|-------------|
-|Deciduous dominant| Stands where the deciduous tree component is 80% or more |
-|Coniferous dominant | Coniferous trees component is 80% or more |
-|Coniferous/deciduous mix | Mixed stands where neither deciduous or coniferous component is 80% or more     | |Other hardwoods | Rarer hardwoods such as green ash, Manitoba maple or white elm comprise 20% or more |
+|Forest Cover Type| Description|
+|-|-|
+|Deciduous dominant| Stands where the deciduous tree component is 80% or more.|
+|Coniferous dominant | Coniferous trees component is 80% or more.|
+|Coniferous/deciduous mix | Mixed stands where neither deciduous or coniferous component is 80% or more.|
+|Other hardwoods | Rarer hardwoods such as green ash, Manitoba maple or white elm comprise 20% or more. |
 |Forested wetland | Lowland-wetland with poor drainage and tree cover sparse at 40% or less, where black spruce and larch species component is 80% or more.  Moss, lichen and/or herb understory. |
 
 ## BCR 4
-Table: (\#tab:4) Vegetation type description for BCR 4.
+Table: (\#tab:4) Forest Cover types description for BCR 4.
 
-|Vegetation Type   | Description |
-|------------------|-------------|
-|Spruce/Fir dominant | Spruce and fir stands where the combined spruce and fir component is 80% or more |
-|Pine dominant | Lodgepole or jack pine stands where the pine component is 80% or more |
-|Deciduous dominant | Stands where the deciduous tree component is 80% or more |
-|Coniferous mix | Coniferous trees component is 80% or more |
-|Coniferous/deciduous mix | Mixed stands where neither deciduous or coniferous component is 80% or more |
+|Forest Cover Type   | Description |
+|-|-|
+|Spruce/Fir dominant | Spruce and fir stands where the combined spruce and fir component is 80% or more.|
+|Pine dominant | Lodgepole or jack pine stands where the pine component is 80% or more. |
+|Deciduous dominant | Stands where the deciduous tree component is 80% or more. |
+|Coniferous mix | Coniferous trees component is 80% or more. |
+|Coniferous/deciduous mix | Mixed stands where neither deciduous or coniferous component is 80% or more. |
 |Forested wetland | Lowland-wetland with poor drainage and tree cover sparse at 40% or less, where black spruce and larch species component is 80% or more.  Moss, lichen and/or herb understory. |
 
 ## BCR 7
 
-Table: (\#tab:8) Vegetation type description for BCR 7.
+Table: (\#tab:7) Forest Cover type description for BCR 7.
 
-|Vegetation Type| Description|
-|---------------|-------------|
+|Forest Cover Type| Description|
+|-|-|
 |Stunted coniferous | Tree cover sparse at 40% or less with stunted spruce, larch and jack pine species making up 80% or more. Understory largely lichen and rock. |
-|Coniferous mix| Coniferous trees component is 80% or more |
-|Coniferous/deciduous mix or deciduous dominant| Stands where coniferous component is not 80% or more |
+|Coniferous mix| Coniferous trees component is 80% or more. |
+|Coniferous/deciduous mix or deciduous dominant| Stands where coniferous component is not 80% or more. |
 |Forested wetland | Lowland-wetland with poor drainage and tree cover sparse at 40% or less, where black spruce and larch species component is 80% or more.  Moss, lichen and/or herb understory. |
 
 ## BCR 8
 
-Table: (\#tab:8) Vegetation type description for BCR 8.
+Table: (\#tab:8) Forest Cover type description for BCR 8.
 
-|Vegetation Type| Description|
-|---------------|-------------|
-|Spruce dominant| Spruce stands where the combined spruce component is 80% or more |
-|Deciduous dominant| Stands where the deciduous tree component is 80% or more |
-|Coniferous mix| Coniferous trees component is 80% or more |
-|Coniferous/deciduous mix| Mixed stands where neither deciduous or coniferous component is 80% or more |
-|Forested wetland | Lowland-wetland with poor drainage and tree cover sparse at 40% or less, where black spruce and larch species component is 80% or more, underlain by moss, lichen and/or herb understory |
+|Forest Cover Type| Description|
+|-|-|
+|Spruce dominant| Spruce stands where the combined spruce component is 80% or more.|
+|Deciduous dominant| Stands where the deciduous tree component is 80% or more.|
+|Coniferous mix| Coniferous trees component is 80% or more.|
+|Coniferous/deciduous mix| Mixed stands where neither deciduous or coniferous component is 80% or more.|
+|Forested wetland | Lowland-wetland with poor drainage and tree cover sparse at 40% or less, where black spruce and larch species component is 80% or more, underlain by moss, lichen and/or herb understory.|
 
+## Non-forested Types
+we determined that given each of the sub-regions within the WBP the following non-forested classes were sufficient for all subregions.
+
+Table:(\#tab:NF) Non-forested types description for the WBP.
+
+|Non-Forested Type| Description|
+|-|-|
+|Water/Ice|Lakes and rivers
+|Wetland|
+|Anthropogenic/Exposed land|Non-forested land. No cover of any type.|
+|Grass/Cropland| Non-forested land. Herbaceous grassland or herbaceous cover.|
+|Shrubland | Non-forested land. Open shrubs or closed shrubs.|
+|Bryoid | Non-forested land. Bryoid cover.
 
 ## Ages classes for forested areas
 
-Power (2006) reported an age class of more than 401 years for British Columbia. However, the oldest stand age found in the study area was 400 years in BCR 4 Fig.\@ref(fig:ages). The Province Forest Inventories consistently use 10-yr age classes. Thus the present study will use the same approach.The maximum age class will be 141-150. 
+Power (2006) reported an age class of more than 401 years for British Columbia. However, the oldest stand age found in the study area was 400 years in BCR 4 Fig.\@ref(fig:age). The Province Forest Inventories consistently use 10-yr age classes. Thus the present study will use the same approach.The maximum age class will be 141-150. 
 
 
-```{r ages, fig.cap="Age Frequency for BCR 4, 6, 7 and 8.", out.width="50%"}
-
+```{r age, fig.cap="Age Frequency for BCR 4, 6, 7 and 8.", out.width="50%"}
 par(mar = c(4, 4, .1, .1))
 knitr::include_graphics("figures/age/BCR4_age.png")
 knitr::include_graphics("figures/age/BCR6_age.png")
