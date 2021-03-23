@@ -64,12 +64,17 @@ provs2 <- c("British Columbia", "Alberta")
 provs3 <- c("Saskatchewan", "Manitoba")
 provs4 <- c("Northwest Territories")
 
+AB<- c("Alberta")
+BC <- c("British Columbia")
+SK <- c("Saskatchewan")
+MB <- c("Manitoba")
 bcr6 <- bcr_sf[bcr_sf$BCR %in% c(6), ]
 
 provsBCR6 <- canProvs[canProvs$NAME_1 %in% provBCR6, ]
 NWT <- canProvs[canProvs$NAME_1 %in% provs4, ]
 ABBC <- canProvs[canProvs$NAME_1 %in% provs2, ]
 SKMB <- canProvs[canProvs$NAME_1 %in% provs3, ]
+SK <- canProvs[canProvs$NAME_1 %in% SK,]
 
 bcr6SA <- reproducible::Cache(postProcess,
                               provsBCR6,
@@ -109,6 +114,12 @@ bcr6SKMB <- reproducible::Cache(postProcess,
                                 studyArea = bcr6SA,
                                 cacheRepo = Paths$cachePath
 )
+bcrSK <- reproducible::Cache(postProcess,
+                             SK,
+                             studyArea = studyArea,
+                             filename2 = NULL,
+                             cacheRepo = Paths$cachePath)
+
 
 ## saving shapefiles (only do it once!)
 # st_write(bcr6SA, "inputs/studyArea/BCR6/BCR6.shp", driver = "ESRI Shapefile")
@@ -116,8 +127,6 @@ bcr6SKMB <- reproducible::Cache(postProcess,
 # st_write(bcr6SKMB, "inputs/studyArea/BCR6/BCR6_SKMB.shp", driver = "ESRI Shapefile")
 # st_write(bcr6NWT, "inputs/studyArea/BCR6/BCR6_NWT.shp", driver = "ESRI Shapefile")
 
-
-=======
 bcr6SKMB <- postProcess(SKMB,
                         studyArea = bcr6SA,
                         useSAcrs = TRUE,
@@ -148,26 +157,31 @@ LCC05_6Ras <- reproducible::Cache(postProcess,
                                   filename2 = "LCC05_BCR6"
 )
 bcr6ABBC <- as_Spatial(bcr6ABBC)
-LCC05_ABBCRas <- reproducible::Cache(prepInputsLCC,
+LCC05_ABBCRas <- reproducible::Cache(LandR::prepInputsLCC,
                                      year = 2005,
                                      destinationPath = Paths$inputPath,
                                      studyArea = bcr6ABBC,
                                      filename2 = "LCC05_ABBC"
                                      )
 
-bcr6SKMB <-st_collection_extract(bcr6SKMB, "POLYGON")                          
+bcr6SKMB <-st_collection_extract(bcr6SKMB, "POLYGON")
 bcr6SKMB <- as_Spatial(bcr6SKMB)
 LCC05_SKMBRas <- reproducible::Cache(LandR::prepInputsLCC,
                                      year = 2005,
                                      studyArea = bcr6SKMB,
                                      destinationPath = Paths$inputPath,
                                      filename2 = "LCC05_SKMB")
-                                     
+bcrSK <- st_collection_extract(bcrSK, "POLYGON")
+bcrSK <- as_Spatial(bcrSK)
+LCC05_SKRas <- reproducible::Cache(LandR::prepInputsLCC,
+                                   year =2005,
+                                   studyArea = bcrSK,
+                                   destinationPath = Paths$inputPath,
+                                   filename2 = "LCC05_SK.tif")
 
->>>>>>> 998d6380be8f57107198c096d638da48c200205d:05_preamble.R
 bcr6NWT <- as_Spatial(bcr6NWT)
 LCC05_NWTRas <- reproducible::Cache(postProcess,
-                                    LCC05Ras, 
+                                    LCC05Ras,
                                     studyArea = bcr6NWT,
                                     destinationPath = asPath(Paths$inputPath),
                                     filename2 = "LCC05_NWT")
@@ -188,12 +202,6 @@ standAgeMapURL <- paste0(
   "NFI_MODIS250m_2011_kNN_Structure_Stand_Age_v1.tif"
 )
 
-<<<<<<< HEAD:06_preamble.R
-# "http://ftp.maps.canada.ca/pub/nrcan_rncan/Forests_Foret/",
-# "canada-forests-attributes_attributs-forests-canada/2001-attributes_attributs-2001/",
-# "NFI_MODIS250m_2001_kNN_Structure_Stand_Age_v1.tif")
-
-## TODO: use LandR::prepInputsStandAgeMap()
 
 standAgeMap2011 <- Cache(LandR::prepInputsStandAgeMap,
                          destinationPath = asPath(Paths$inputPath),
@@ -239,7 +247,7 @@ firePoints <- Cache(fireSenseUtils::getFirePoints_NFDB,
                     redownloadIn = 1,
                     years = 1991:2017, ## TODO: @araymund83 these are default years; do you want others?
                     fireSizeColName = "SIZE_HA",
-                    NFDB_pointPath = asPath(Paths$inputPath)) %>% 
+                    NFDB_pointPath = asPath(Paths$inputPath)) %>%
   st_as_sf(.)
 
 biomassMapURL <- paste0(
@@ -275,7 +283,7 @@ speciesLayers2001 <- Cache(LandR::loadkNNSpeciesLayers,
                            )
 )
 
-vegMap <- Cache(prepInputsLCC,
+vegMap <- Cache(LandR::prepInputsLCC,
                 year = 2005,
                 destinationPath = asPath(Paths$inputPath),
                 studyArea = studyAreaLarge,
@@ -285,7 +293,7 @@ vegMap <- Cache(prepInputsLCC,
 
 ecoregionsURL <- paste0("https://drive.google.com/file/d/",
                         "1y2-mM7NBxEvdeoDENkwbQDa-rdQjiutx/view?usp=sharing")
-ecoregionsMap <- Cache(prepInputs, 
+ecoregionsMap <- Cache(prepInputs,
                        destinationPath = Paths$inputPath,
                        url = ecoregionsURL,
                        fun = "read_sf",
@@ -298,6 +306,46 @@ ecoregionsMap <- Cache(prepInputs,
 )
 
 ## TODO: revist this -- why are so many changes etc. being done? why use 'WB' column -- use 'LandR'?
+## species equivalencies
+sppEquivCol <- "LandR"
+data("sppEquivalencies_CA", package = "LandR")
+sppEquiv <- sppEquivalencies_CA
+
+allWBspp <- c("Abie_bal", "Abie_las", "Betu_pap", "Lari_lar",
+              "Pice_eng", "Pice_gla", "Pice_mar", "Pinu_ban",
+              "Pinu_con", "Popu_tre")
+sppEquiv <- sppEquivalencies_CA[LandR %in% allWBspp]
+SASppToUse <- data.table::data.table(
+  LandR = sppEquiv[, LandR],
+  BC = c(FALSE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, FALSE, TRUE, TRUE),
+  AB = c(TRUE, TRUE, TRUE, TRUE, FALSE, TRUE, TRUE, TRUE, TRUE, TRUE),
+  SK = c(TRUE, FALSE, TRUE, TRUE, FALSE, TRUE, TRUE, TRUE, FALSE, TRUE),
+  MB = c(TRUE, FALSE, TRUE, TRUE, FALSE, TRUE, TRUE, TRUE, FALSE, TRUE),
+  YT = c(FALSE, TRUE, TRUE, TRUE, FALSE, TRUE, TRUE, FALSE, TRUE, TRUE),
+  NT = c(FALSE, FALSE, TRUE, TRUE, FALSE,TRUE, TRUE, TRUE, FALSE, TRUE),
+  NU = c(FALSE, FALSE, TRUE, TRUE, FALSE, TRUE, TRUE, TRUE, FALSE, TRUE)
+)
+sAN <- studyAreaName
+
+sppEquiv <- sppEquiv[which(SASppToUse[, ..sAN][[1]]), ] ##subset per SA
+sppEquivCol <- "LandR"
+
+#Assign colour
+sppColorVect <- LandR::sppColors(sppEquiv = sppEquiv,
+                                 sppEquivCol = sppEquivCol,
+                                 palette = "Paired")
+mixed <- structure("#D0FB84", names = "Mixed")
+sppColorVect[length(sppColorVect) + 1] <- mixed
+attributes(sppColorVect)$names[length(sppColorVect)] <- "Mixed"
+
+
+
+
+
+
+
+
+
 
 ## species equivalencies
 sppEquivCol <- "WB"
@@ -318,7 +366,7 @@ sppEquiv[, WB := c(Pice_mar = "Pice_mar", Pice_gla = "Pice_gla",
 #Frax_pen = "Frax_pen", Acer_neg = "Acer_neg",
 # Ulmu_ame = "Ulmu_ame", Sali_sp = "Sali_sp")[LandR]]
 
-sppEquiv <- sppEquiv[LANDIS_traits != "PINU.CON.CON"] 
+sppEquiv <- sppEquiv[LANDIS_traits != "PINU.CON.CON"]
 
 sppEquiv[WB == "Abie_las", EN_generic_full := "Subalpine Fir"]
 sppEquiv[WB == "Abie_las", EN_generic_short := "Fir"]
@@ -337,7 +385,7 @@ sppEquiv <- sppEquiv[!is.na(WB)]
 sppEquiv[WB == "Pinu_con", KNN := "Pinu_Con"]
 
 #Assign colour
-sppColorVect <- LandR::sppColors(sppEquiv = sppEquiv, 
+sppColorVect <- LandR::sppColors(sppEquiv = sppEquiv,
                                  sppEquivCol = sppEquivCol,
                                  palette = "Paired")
 mixed <- structure("#D0FB84", names = "Mixed")
