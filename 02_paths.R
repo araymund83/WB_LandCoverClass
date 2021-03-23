@@ -9,7 +9,7 @@ message("The 'raster' package is using ", scratchDirRas, " as scratch directory.
 paths1 <- list(
   ## use same cachePath for all data-prep steps before dynamic simulation
   cachePath = file.path("cache", "dataPrepGIS", "preamble"),
-  modulePath = "modules", 
+  modulePath = "modules",
   inputPath = file.path("inputs", "studyArea"),
   outputPath = file.path("outputs")
 )
@@ -32,11 +32,11 @@ paths2a <- list(
   outputPath = file.path("outputs")
 )
 
-## main simulation 
+## main simulation
 paths3 <- list(
   #use a separate cachePath for each dynamic simulation
   cachePath = file.path("cache"),
   modulePath = c("modules", "modules/scfm/modules"),
   inputPath = "inputs",
-  outputPath = checkPath(file.path("outputs/results"),  create = TRUE)
+  outputPath = reproducible::checkPath(file.path("outputs/results"),  create = TRUE)
 )
