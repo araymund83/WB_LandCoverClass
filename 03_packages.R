@@ -11,7 +11,7 @@ GHpkgs <- c(
   "PredictiveEcology/SpaDES.experiment@development",
   "PredictiveEcology/quickPlot@development",
   "PredictiveEcology/fireSenseUtils@development",
-  "ianmseddy/LandR.CS",
+ # "ianmseddy/LandR.CS",
   "PredictiveEcology/usefulFuns"
 )
 
@@ -32,16 +32,16 @@ CRANpkgs <- c(
   "raster",
   "RColorBrewer",
   "scam (== 1.2.3)",
-  "sf", 
+  "sf",
   "sp",
   "tinytex"
 )
 
 ## install but don't load packages yet
-Require(GHpkgs, require = FALSE)
-Require(CRANpkgs, require = FALSE)
+Require::Require(GHpkgs, require = FALSE)
+Require::Require(CRANpkgs, require = FALSE)
 
 ## don't need to load packages for modules; done automatically but ensure they are installed.
 SpaDES.install::makeSureAllPackagesInstalled(paths2$modulePath)
 
-Require(c("magrittr", "raster", "reproducible", "SpaDES.core", "sf"))
+Require::Require(c("magrittr", "raster", "reproducible", "SpaDES.core", "sf"))

@@ -3,10 +3,10 @@
 ################################################################################
 
 cacheDBconn <- if (cacheDB == "sqlite") {
-  Require("RSQLite")
+  Require::Require("RSQLite")
   NULL ## default to sqlite
 } else if (cacheDB == "postgresql") {
-  Require("RPostgres")
+  Require::Require("RPostgres")
   DBI::dbConnect(drv = RPostgres::Postgres(),
                  host = Sys.getenv("PGHOST"),
                  port = Sys.getenv("PGPORT"),
@@ -51,7 +51,7 @@ options(
   "pemisc.useParallel" = TRUE
 )
 
-Require(c("googledrive", "httr"))
+Require::Require(c("googledrive", "httr"))
 httr::set_config(httr::config(http_version = 0))
 drive_auth(email = userEmail, use_oob = quickPlot::isRstudioServer())
 message(crayon::silver("Authenticating as: "), crayon::green(drive_user()$emailAddress))
