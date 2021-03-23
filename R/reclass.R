@@ -1,6 +1,6 @@
 library(SpaDES.core)
 library(SpaDES.tools)
-outSimSppLayers <- loadSimList("~/Downloads/simOutSpeciesLayers_ABBC.qs")
+outSimSppLayers <- loadSimList("/home/araymundo/GITHUB/WB_LandCoverClass/inputs/simOutSpeciesLayers_ABBC.qs")
 
 # Ana's work below --------------------------------------------------------------------------------
 
@@ -10,19 +10,19 @@ pixelCohortData <- LandR::addNoPixel2CohortData(outSimSppLayers$cohortData,
                                                 doAssertion = getOption("LandR.assertions", TRUE))
 
 ## Add vegetation type column to the cohortData table
-vegTypeTable <- LandR::vegTypeGenerator(pixelCohortData, vegLeadingProportion = 0.8,
-                                        mixedType = 2, sppEquiv = sppEquiv,
+vegTypeTable <- LandR::vegTypeGenerator(pixelCohortData, vegLeadingProportion = 0.7,
+                                        mixedType = 2, sppEquiv = outSimSppLayers$sppEquiv,
                                         sppEquivCol = "WB", pixelGroupColName = "pixelGroup")
-vegTypeTable2 <- copy(vegTypeTable)
+vegTypeTable2 <- data.table::copy(vegTypeTable)
 
 
 vegTypeMap <- LandR::vegTypeMapGenerator(pixelCohortData, vegLeadingProportion = 0.8,
-                                         mixedType = 2, sppEquiv = sppEquiv,
+                                         mixedType = 2, sppEquiv = outSimSppLayers$sppEquiv,
                                          pixelGroupMap = outSimSppLayers$pixelGroupMap,
                                          sppEquivCol = "WB", pixelGroupColName = "pixelGroup")
 
 ##subset the pixelCohortData and create a new column with the max age per pixelGroup
-newAgeCD <- vegTypeTable[, list(ageMax = max(age)), by = "pixelGroup"]  ## TODO: BIOMASS WEIGHTED MEAN ?
+newAgeCD <- vegTypeTable2[, list(ageMax = max(age)), by = "pixelGroup"]  ## TODO: BIOMASS WEIGHTED MEAN ?
 
 ##apply reclass function to the subset data.table
 newAgeCD <- ageReclass(newAgeCD)
@@ -31,10 +31,13 @@ newAgeCD <- ageReclass(newAgeCD)
 ageGroupRas <- rasterizeReduced(reduced = newAgeCD,
                                 fullRaster = outSimSppLayers[["pixelGroupMap"]],
                                 mapcode = "pixelGroup", newRasterCols =  "ageGroup")
+writeRaster(ageRas, "ageRas.tif")
+
+vegTypeRas <- rasterizedReduced(reduced =)
 
 ## subset the pixelCohortData and create a new column with the sum of Biomass(B)
 ## per pixelGroup and RelB per pixelGroup & speciesCode
-sumBCD <- vegTypeTable[, list(sumB = sum(B)), by =  "pixelGroup"]
+sumBCD <- vegTypeTable2[, list(sumB = sum(B)), by =  "pixelGroup"]
 
 ## create the sumB RasterLayer
 sumBRas <- rasterizeReduced(reduced = sumBCD,
@@ -51,85 +54,31 @@ if (any(is.na(vegTypeTable2$relB))) {
 }
 
 ## subset to a smaller DT
-vegTypes <- unique(vegTypeTable2[B > 0, .(pixelGroup,speciesCode, relB, sumB)])
+vegTypes <- unique(vegTypeTable2[B > 0, .(pixelGroup,leading, speciesCode, B, relB, sumB)])
 
-## TODO: romev this block -- it was Ana's 2nd attempt at reclassification
-# vegTypes$vegClass <- ifelse(vegTypes$speciesCode %in% c("Pinu_ban", "Pinu_con") &
-#                               sum(vegTypes$relB >= pureCutoff)
-#                             & vegTypes$speciesCode %in% c("Popu_tre", "Popu_bal","Betu_pap","Abie_las","Abie_bal")
-#                             & sum(vegTypes$relB >= .20), "pine",
-#                             ifelse(vegTypes$speciesCode %in% c("Pice_mar") &  sum(vegTypes$relB >= pureCutoff) &
-#                                      vegTypes$speciesCode %in% deciSp & sum(vegTypes$relB >= 0.2), "BkSp",
-#                                    ifelse(vegTypes$speciesCode %in% c("Pice_gla", "Abie_bal") & sum(vegTypes$relB >= pureCutoff), "WhSp",
-#                                           ifelse(vegTypes$speciesCode %in% c("Popu_tre", "Popu_bal", "Betu_pap") & sum(vegTypes$relB >= pureCutoff), "Deciduous",
-#                                                  ifelse(vegTypes$speciesCode %in% c("Popu_tre", "Popu_bal", "Betu_pap") & sum(vegTypes$relB >= .20), "Mixedwood",
-#                                                         ifelse(vegTypes$speciesCode %in% c("Pice_mar") & sum(vegTypes$relB >= pureCutoff), "wetland", "NonVeg"))))))
 
-a <- vegTypes[ , list(vegClass), by = "pixelGroup"]
-rasterTemplate <- outSimSppLayers$pixelGroupMap
-rasterTemplate[!is.na(rasterTemplate)] <- 0
-
-r <- SpaDES.tools::rasterizeReduced(reduced = a,
-                                    fullRaster = vegTypes$pixelGroup,
-                                    mapcode = "pixelGroup", newRasterCols = "vegClass")
+# a <- DT[ , list(vegClass), by = "pixelGroup"]
+# rasterTemplate <- outSimSppLayers$pixelGroupMap
+# rasterTemplate[!is.na(rasterTemplate)] <- 0
+#
+# r <- SpaDES.tools::rasterizeReduced(reduced = a,
+#                                     fullRaster = outSimSppLayers[["pixelGroupMap"]],
+#                                     mapcode = "pixelGroup", newRasterCols = "vegClass")
 
 # Alex testing --------------------------------------------------------------------------------
-DT <- copy(vegTypes)
-setkeyv(DT, cols = "pixelGroup")
+DT <- data.table::copy(vegTypes)
+data.table::setkeyv(DT, cols = "pixelGroup")
 
 ## TODO: use DT instead of DT2
-DT2 <- DT[pixelGroup >= 3260400,]
-DT2[, vegClass := convertToVegType(.SD, pureCutoff = 0.8,
+DT2 <- DT[pixelGroup >= 3200000 & pixelGroup <= 3200100,]
+#DT2 <- DT[pixelGroup == 500,]
+DT2[, vegClass := convertToVegType(.SD, pureCutoff = 0.5,
                                    deciSp = c("Popu_tre", "Popu_bal","Betu_pap"),
                                    coniSp = c("Pinu_ban", "Pinu_con", "Abie_bal", "Abie_las")),
-   by = pixelGroup, .SDcols = c("speciesCode", "relB")]
+   by = pixelGroup, .SDcols = c("leading", "speciesCode", "relB")]
 
-# DT[, vegClass := convertToVegType(.SD, pureCutoff = 0.8,
-#                                   deciSp = c("Popu_tre", "Popu_bal","Betu_pap"),
-#                                   coniSp = c("Pinu_ban", "Pinu_con", "Abie_bal", "Abie_las")),
-#    by = pixelGroup, .SDcols = c("speciesCode", "relB")]
+
+DTNA <- DT[is.na(vegClass)]
+
 # end Alex testing ----------------------------------------------------------------------------
 
-convertToVegType <- function(DT, pureCutoff = 0.8,
-                             deciSp = c("Popu_tre", "Popu_bal","Betu_pap"),
-                             coniSp = c("Pinu_ban", "Pinu_con", "Abie_bal", "Abie_las")) {
-    ## TODO: use factors or integers for vegClass ???
-    if (.sumRelBs(c("Pinu_ban", "Pinu_con"), DT) >= pureCutoff &&
-        .sumRelBs(c("Popu_tre", "Popu_bal", "Betu_pap"), DT) < 1 - pureCutoff) {
-      ## Pine dominant: dominated by Pinu_ban(jackpine) &/or Pinu_con (Lodgepole pine) > 80%
-      ## deciduous species less than 20%
-      "Pine"
-    } else if (.sumRelBs("Pice_mar", DT) >= pureCutoff &&
-                .sumRelBs(deciSp, DT) > 0) {
-      ## Black Spruce (BkSp): dominated by Pice_mar (black spruce) > 80%
-      "BkSp"
-    } else if (.sumRelBs(c("Pice_gla", "Abie_bal"), DT) >= pureCutoff) {
-      ## White Spruce (WhSp): dominated by Pice_gla (white spruce) & Abie_bal (balsam fir) > 80%
-      "WhSp"
-    } else if (.sumRelBs(deciSp, DT) >= pureCutoff &&
-               .sumRelBs(coniSp, DT) < 1 - pureCutoff) {
-      ## Deciduous: Popu_tre(trembling aspen) &/or Popu_bal (balsam poplar) &/or
-      ## Betu_pap(white birch) > 80%
-      "Decid"
-    } else if (.sumRelBs(c("Popu_tre", "Popu_bal", "Betu_pap"), DT) >= 1 - pureCutoff &&
-               .sumRelBs(c(coniSp, "Pice_gla", "Pice_mar"), DT) > 1 - pureCutoff) {
-      ## Mixedwood : Deciduous species more than 20%
-      "Mixed"
-    } else if (.sumRelBs("Pice_mar", DT) >= pureCutoff) {
-      ## Wetland :Black spruce dominated and  Deciduous species more than 20%
-      "Wtlnd"
-    } else {
-      ## just in case there are any not covered
-      NA_character_
-    }
-}
-
-#' internal function that sums relative biomasses for species matching a character string,
-#' but that can be appear duplicated in another species coding column.
-#' @param sppToMatch character string of species to match against for summing B.
-#' @param DT data.table with columns 'speciesCode', 'relB'.
-.sumRelBs <- function(sppToMatch, DT) {
-  DT[speciesCode %in% sppToMatch, relB] %>% sum()
-}
-
-out <- convertToVegType(DT = vegTypes, groupingCol = "pixelGroup")
