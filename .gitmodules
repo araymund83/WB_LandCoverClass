@@ -19,3 +19,6 @@
 [submodule "modules/PSP_Clean"]
 	path = modules/PSP_Clean
 	url = git@github.com:ianmseddy/PSP_Clean.git
+[submodule "WBI_preamble"]
+	path = WBI_preamble
+	url = https://github.com/araymund83/WBI_preamble.git
