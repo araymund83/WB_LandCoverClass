@@ -6,7 +6,8 @@ if (!require("Require")) {
 Require("PredictiveEcology/SpaDES.install")
 #installSpaDES() ## TODO: fix -- see SpaDES.install#7 and SpaDES.install#8
 
-studyarea <- "SK"
+studyarea <- "NWT"
+studyAreaName <- studyarea
 #studyarea <- "SKMB"
 
 source("01_init.R")
