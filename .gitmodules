@@ -25,3 +25,6 @@
 [submodule "modules/WBI_preamble"]
 	path = modules/WBI_preamble
 	url = git@github.com:araymund83/WBI_preamble.git
+[submodule "modules/WBI_vegReclass"]
+	path = modules/WBI_vegReclass
+	url = git@github.com:araymund83/WBI_vegReclass.git
