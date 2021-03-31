@@ -8,7 +8,6 @@ Require("PredictiveEcology/SpaDES.install")
 
 studyarea <- "bcr6NWT"
 studyAreaName <- studyarea
-#studyarea <- "SKMB"
 
 source("01_init.R")
 source("02_paths.R")
