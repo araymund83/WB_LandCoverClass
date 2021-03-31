@@ -3,7 +3,7 @@ title: "Western Boreal Land Cover Classes"
 author: "Isolde Lane Shaw, Ana Raymundo and Steve Cumming"
 date: "12/3/2020"
 output:
-  #bookdown::html_document2: 
+  bookdown::html_document2: 
   bookdown::pdf_document2: 
   includes:
     toc: yes
@@ -59,7 +59,7 @@ The land cover classification classes for each sub-region were obtained using th
 # Results
 
 ## Sub-regions
-The Western Boreal study area was divided into sub-regions following the BCR boundaries, except for BCR 6, which given its extension and vegetation heterogeneity, it was split into three sub-regions: the northern area in Yukon, the Northwest Territories and Nunavut, the western area in British Columbia and Alberta, and the eastern area in Saskatchewan and Manitoba (Fig.\@ref(fig:area)).  
+The Western Boreal study area was divided into sub-regions following the BCR boundaries, except for BCR 6, which given its extensive size and vegetation heterogeneity, it was split into three sub-regions: the northern area in Yukon, the Northwest Territories and Nunavut, the western area in British Columbia and Alberta, and the eastern area in Saskatchewan and Manitoba (Fig.\@ref(fig:area)).  
 
 ```{r area, echo = FALSE, fig.cap = "Western Boreal Project sub-regions", out.width="60%"}
 knitr::include_graphics("figures/WB_LandCoverRegions.PNG")
@@ -164,8 +164,8 @@ Table:(\#tab:NF) Non-forested types description for the WBP.
 
 |Non-Forested Type| Description|
 |-|-|
-|Water/Ice|Lakes and rivers
-|Wetland|
+|Water/Ice|Lakes and rivers, or consistente snow/ice cover throughout the year.
+|Wetland|Areas of poor drainage, with vegetation, but less than 5% tree cover.
 |Anthropogenic/Exposed land|Non-forested land. No cover of any type.|
 |Grass/Cropland| Non-forested land. Herbaceous grassland or herbaceous cover.|
 |Shrubland | Non-forested land. Open shrubs or closed shrubs.|
@@ -173,10 +173,10 @@ Table:(\#tab:NF) Non-forested types description for the WBP.
 
 ## Ages classes for forested areas
 
-Power (2006) reported an age class of more than 401 years for British Columbia. However, the oldest stand age found in the study area was 400 years in BCR 4 Fig.\@ref(fig:age). The Province Forest Inventories consistently use 10-yr age classes. Thus the present study will use the same approach.The maximum age class will be 141-150. 
+Power (2006) reported an age class of more than 401 years for British Columbia. However, the oldest stand age found in the study area was 400 years in BCR 4 (Fig.\@ref(fig:age2). The Province Forest Inventories consistently use 10-yr age classes. Thus the present study will use the same approach.The maximum age class will be 141-150. 
 
 
-```{r age, fig.cap="Age Frequency for BCR 4, 6, 7 and 8.", out.width="50%"}
+```{r age2, fig.cap="Age Frequency for BCR 4, 6, 7 and 8.", out.width="50%"}
 par(mar = c(4, 4, .1, .1))
 knitr::include_graphics("figures/age/BCR4_age.png")
 knitr::include_graphics("figures/age/BCR6_age.png")
