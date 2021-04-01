@@ -26,7 +26,7 @@ dataPrepParams2001 <- list(
     , ".useCache" = c(".inputObjects", "init")
    ),
   Biomass_speciesData = list(
-    "sppEquivCol" = sppEquivCol,
+    "sppEquivCol" = simOutPreamble$sppEquivCol,
     ".studyAreaName" = paste0(studyAreaName, 2001)
   )
 )
@@ -47,19 +47,19 @@ dataPrepOutputs2001 <- data.frame(
 )
 
 dataPrepObjects <- list(
-  "rasterToMatch" = rasterToMatch,
-  "rasterToMatchLarge" = rasterToMatchLarge,
-  "sppColorVect" = sppColorVect,
-  "sppEquiv" = sppEquiv,
-  "studyArea" = studyArea,
-  "studyAreaLarge" = studyAreaLarge
-#  "rstLCC " = rstLCC,
- # "vegMap" = vegMap,
-  #"firePoints" = firePointsNWT,
-  #"standAgeMap" = standAgeMap2011,
-  #"rawBiomassMap" = rawbiomassMap2001,
-  #"flammableMap" = flammableMap,
-  #"ecoregions" = ecoregionsMap
+  "rasterToMatch" = simOutPreamble$rasterToMatch,
+  "rasterToMatchLarge" = simOutPreamble$rasterToMatchLarge,
+  "sppColorVect" = simOutPreamble$sppColorVect,
+  "sppEquiv" = simOutPreamble$sppEquiv,
+  "studyArea" = simOutPreamble$studyArea,
+  "studyAreaLarge" = simOutPreamble$studyAreaLarge,
+  "rstLCC " = rstLCC,
+  "vegMap" = simOutPreamble$vegMap,
+  "firePoints" = simOutPreamble$firePoints,
+  "standAgeMap" = simOutPreamble$standAgeMap2011,
+  "rawBiomassMap" = simOutPreamble$rawbiomassMap2001,
+  "flammableMap" = simOutPreamble$flammableMap,
+  "ecoregions" = simOutPreamble$ecoregionsMap
 )
 
 sppLayersFile <- file.path(Paths$outputPath, paste0("biomassMaps2001_",
