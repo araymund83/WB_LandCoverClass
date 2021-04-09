@@ -1,10 +1,10 @@
 do.call(SpaDES.core::setPaths, paths2)
 
 simObjects <- list(
-  'cohortData' = outSimSppLayers$cohortData,
-  'pixelGroupMap' = outSimSppLayers$pixelGroupMap,
-  'sppEquiv' = outSimSppLayers$sppEquiv,
-  'sppEquivCol' =  "WB"#outSimSppLayers$sppEquivCol
+  'cohortData' = biomassMaps2001$cohortData,
+  'pixelGroupMap' = biomassMaps2001$pixelGroupMap,
+  'sppEquiv' = biomassMaps2001$sppEquiv,
+  'sppEquivCol' =  simOutPreamble$sppEquivCol
 )
 simParams <- list(
   WBI_vegReclass = list(
@@ -23,4 +23,4 @@ vegReclass <- Cache(simInitAndSpades,
 )
 
 dataPrepFile <- file.path(Paths$inputPath, paste0("vegReclass_", studyAreaName,".qs"))
-saveSimList(simOutPreamble, dataPrepFile)
+saveSimList(vegReclass, dataPrepFile)
