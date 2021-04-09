@@ -173,11 +173,13 @@ Table:(\#tab:NF) Non-forested types description for the WBP.
 
 ## Ages classes for forested areas
 
-Power (2006) reported an age class of more than 401 years for British Columbia. However, the oldest stand age found in the study area was 400 years in BCR 4 (Fig.\@ref(fig:age2). The Province Forest Inventories consistently use 10-yr age classes. Thus the present study will use the same approach.The maximum age class will be 141-150. 
+Power (2006) reported an age class of more than 401 years for British Columbia. However, the oldest stand age found in the study area was 400 years in BCR 4 (Fig.\@ref(fig:age)). The Province Forest Inventories consistently use 10-yr age classes. Thus the present study will use the same approach.The maximum age class will be 141+. 
 
 
-```{r age2, fig.cap="Age Frequency for BCR 4, 6, 7 and 8.", out.width="50%"}
+```{r age, fig.cap="Age Frequency for BCR 4, 6, 7 and 8.", out.width="50%"}
+
 par(mar = c(4, 4, .1, .1))
+
 knitr::include_graphics("figures/age/BCR4_age.png")
 knitr::include_graphics("figures/age/BCR6_age.png")
 knitr::include_graphics("figures/age/BCR7_age.png")
