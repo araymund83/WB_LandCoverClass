@@ -22,7 +22,7 @@ vegTypeMap <- LandR::vegTypeMapGenerator(pixelCohortData, vegLeadingProportion =
                                          sppEquivCol = "WB", pixelGroupColName = "pixelGroup")
 
 ##subset the pixelCohortData and create a new column with the max age per pixelGroup
-newAgeCD <- vegTypeTable2[, list(ageMax = max(age)), by = "pixelGroup"]  ## TODO: BIOMASS WEIGHTED MEAN ?
+newAgeCD <- vegTypeTable[, list(ageMax = max(age)), by = "pixelGroup"]  ## TODO: BIOMASS WEIGHTED MEAN ?
 
 ##apply reclass function to the subset data.table
 newAgeCD <- ageReclass(newAgeCD)
@@ -70,7 +70,7 @@ DT <- data.table::copy(vegTypes)
 data.table::setkeyv(DT, cols = "pixelGroup")
 
 ## TODO: use DT instead of DT2
-DT2 <- DT[pixelGroup >= 3200000 & pixelGroup <= 3200100,]
+DT2 <- DT[pixelGroup >= 3200000,]
 #DT2 <- DT[pixelGroup == 500,]
 DT2[, vegClass := convertToVegType(.SD, pureCutoff = 0.5,
                                    deciSp = c("Popu_tre", "Popu_bal","Betu_pap"),
@@ -81,4 +81,24 @@ DT2[, vegClass := convertToVegType(.SD, pureCutoff = 0.5,
 DTNA <- DT[is.na(vegClass)]
 
 # end Alex testing ----------------------------------------------------------------------------
+
+################################################################################
+#                        non-forested pixels
+################################################################################
+treepixels <- simOutPreamble$rstLCC[] %in% forestedLCCClasses
+vals <- raster::getValues(simOutPreamble$rasterToMatch)
+uniqueLCCClasses <- na.omit(unique(simOutPreamble$rasterToMatch))
+nontreeClasses <- sort(uniqueLCCClasses[!uniqueLCCClasses %in% forestedLCCClasses])
+
+remapDT <- data.table::as.data.table(expand.grid(LCC2005 = c(NA_integer_, sort(uniqueLCCClasses)),
+                         NFtype = c(NA_integer_, 0:5)))
+remapDT[LCC2005 == 0, newLCC := NA_integer_]
+remapDT[is.na(NFtype) | NFtype == 5, newLCC := LCC2005]
+remapDT[LCC2005 == 4, newLCC := NA_integer_]
+remapDT[CC %in% 0:3, newLCC := LCC2005]
+remapDT[is.na(LCC2005) & CC %in% 0:2, newLCC := 99] ## reclassification needed
+remapDT[LCC2005 %in% P(sim)$treeClassesToReplace, newLCC := 99] ## reclassification needed
+
+
+
 
