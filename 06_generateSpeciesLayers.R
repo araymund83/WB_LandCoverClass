@@ -19,7 +19,7 @@ dataPrepParams2001 <- list(
                                       sim$sppEquiv, P(sim)$sppEquivCol)),
       quote(LandR::updateSpeciesTable(sim$species, sim$speciesParams))
     )
-    , "sppEquivCol" = sppEquivCol
+    , "sppEquivCol" = simOutPreamble$sppEquivCol
     , "subsetDataBiomassModel" = dataPrep$subsetDataBiomassModel
     , "successionTimestep" = 10
     , "subsetDataBiomassModel" = dataPrep$subsetDataBiomassModel
@@ -39,11 +39,11 @@ dataPrepOutputs2001 <- data.frame(
                  "rawBiomassMap"),
   saveTime = 2001,
   file = paste0 (studyAreaName, "_",
-                 c("cohortData2001_NWT.rds",
-                   "pixelGroupMap2001_NWT.rds",
-                   "speciesLayers2001_NWT.rds",
-                   "standAgeMap2001_NWT_borealDataPrep.rds",
-                   "rawBiomassMap2001_NWT_borealDataPrep.rds"))
+                 c("cohortData2001.rds",
+                   "pixelGroupMap2001.rds",
+                   "speciesLayers2001.rds",
+                   "standAgeMap2001.rds",
+                   "rawBiomassMap2001.rds"))
 )
 
 dataPrepObjects <- list(
@@ -51,11 +51,12 @@ dataPrepObjects <- list(
   "rasterToMatchLarge" = simOutPreamble$rasterToMatchLarge,
   "sppColorVect" = simOutPreamble$sppColorVect,
   "sppEquiv" = simOutPreamble$sppEquiv,
+  "studyAreaReporting" = simOutPreamble$studyAreaReporting,
   "studyArea" = simOutPreamble$studyArea,
   "studyAreaLarge" = simOutPreamble$studyAreaLarge,
-  "rstLCC " = rstLCC,
+  "rstLCC " = simOutPreamble$rstLCC,
   "vegMap" = simOutPreamble$vegMap,
-  "firePoints" = simOutPreamble$firePoints,
+  #"firePoints" = simOutPreamble$firePoints,
   "standAgeMap" = simOutPreamble$standAgeMap2011,
   "rawBiomassMap" = simOutPreamble$rawbiomassMap2001,
   "flammableMap" = simOutPreamble$flammableMap,
@@ -67,8 +68,8 @@ sppLayersFile <- file.path(Paths$outputPath, paste0("biomassMaps2001_",
 
 biomassMaps2001 <- reproducible::Cache(simInitAndSpades,
                          times = list(start = 2001, end = 2001)
-                         , params = dataPrepParams2001
-                         , modules = list( "Biomass_speciesData", "Biomass_borealDataPrep")
+                         , params = dataPrepParams20Biomass_speciesData01
+                         , modules = list( "", "Biomass_borealDataPrep")
                          , objects = dataPrepObjects
                          , outputs = dataPrepOutputs2001
                          , paths = getPaths()
@@ -78,3 +79,5 @@ biomassMaps2001 <- reproducible::Cache(simInitAndSpades,
                          , userTags = c("dataPrep2001", "studyAreaName")
 )
 saveSimList(sim = biomassMaps2001, filename= sppLayersFile)
+#biomassMaps2001 <- loadSimList("/home/araymundo/GITHUB/WB_LandCoverClass/outputs/biomassMaps2001_bcr6AB.qs")
+
