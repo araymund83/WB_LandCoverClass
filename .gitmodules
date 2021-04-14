@@ -7,18 +7,9 @@
 [submodule "modules/Biomass_core"]
 	path = modules/Biomass_core
 	url = git@github.com:PredictiveEcology/Biomass_core.git
-[submodule "modules/Biomass_regeneration"]
-	path = modules/Biomass_regeneration
-	url = https://github.com/PredictiveEcology/Biomass_regeneration.git
-[submodule "modules/Biomass_speciesParameters"]
-	path = modules/Biomass_speciesParameters
-	url = git@github.com:PredictiveEcology/Biomass_speciesParameters.git
 [submodule "modules/scfm"]
 	path = modules/scfm
 	url = git@github.com:PredictiveEcology/scfm.git
-[submodule "modules/PSP_Clean"]
-	path = modules/PSP_Clean
-	url = git@github.com:ianmseddy/PSP_Clean.git
 [submodule "modules/WBI_preamble"]
 	path = modules/WBI_preamble
 	url = git@github.com:araymund83/WBI_preamble.git
