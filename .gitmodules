@@ -19,3 +19,6 @@
 [submodule "postHocBinning"]
 	path = postHocBinning
 	url = git@github.com:ilaneshaw/postHocBinning.git
+[submodule "bootRasterCombine"]
+	path = bootRasterCombine
+	url = git@github.com:ilaneshaw/bootRasterCombine.git
