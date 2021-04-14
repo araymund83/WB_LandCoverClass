@@ -85,19 +85,88 @@ DTNA <- DT[is.na(vegClass)]
 ################################################################################
 #                        non-forested pixels
 ################################################################################
-treepixels <- simOutPreamble$rstLCC[] %in% forestedLCCClasses
-vals <- raster::getValues(simOutPreamble$rasterToMatch)
-uniqueLCCClasses <- na.omit(unique(simOutPreamble$rasterToMatch))
+uniqueLCCClasses <- na.omit(unique(simOutPreamble$rstLCC))
 nontreeClasses <- sort(uniqueLCCClasses[!uniqueLCCClasses %in% forestedLCCClasses])
+treepixels <- simOutPreamble$rstLCC[] %in% forestedLCCClasses
+nontreePixels <- which(simOutPreamble$rstLCC[] %in% nontreeClasses)
+vals <- raster::getValues(simOutPreamble$rstLCC)
+### get all NA's
+lcc05NA <- is.na(simOutPreamble$rstLCC[])
+
+
+
+
+nonForestRas <- raster::setValues(x = simOutPreamble$rstLCC,)
+
+nonForesReclassTB <- Cache(prepInputs, url = paste0("https://drive.google.com/file/",
+                                                    "d/17IGN5vphimjWjIfyF7XLkUeD-ze",
+                                                    "Kruc1/view?usp=sharing"),
+                           destinationPath = Paths$inputPath,
+                           purge = 7,
+                           fun = "data.table::fread",
+                           userTags = "WBnonForest_LCC05")
+
+reclassMatrix <- usefulFuns::makeReclassifyMatrix(table = nonForesReclassTB,
+                                                  originalCol = "LCC05_Class",
+                                                  reclassifiedTo = "nonForest_Class")
+nonForestRas <- raster::reclassify(x = simOutPreamble$rstLCC, rcl = reclassMatrix[, -1])
+
+
+# # get xy of all pixels that are not forested classes
+nontreeIndex <- which(simOutPreamble$rstLCC[] %in% nontreeClasses)
+
+# #extract pixel numbers of all xy from LCC05
+ nontreeLocations <- xyFromCell(simOutPreamble$rstLCC, nontreeIndex)
+ lcc05nonForest <-  as.data.table(raster::extract(simOutPreamble$rstLCC, nontreeLocations, cellnumbers = TRUE))
+
+ lccnonForestLayer <- nontreePixels
+ lccnonForestLayer[!is.na(lccnonforest)]
+
+ # countnonForest <- lcc05nonForest[, .N, by= cells]
+#
+# lcc05Vals <- data.table(LCC = getValues(simOutPreamble$rstLCC), pixelID = 1:ncell(simOutPreamble$rstLCC))
+# nonForestVals <- lcc05Vals[, LCC > 15]
+# nonForestRas <- reclassify()
+#
+# nontreeVals <- lcc05Vals[, lcc > 15]
+#
+#
+# lnontreeLocations<- xyFromCell(simOutPreamble$rstLCC, nontreeClasses)
+lcc05nonForest <- data.table(lcc = getValues(simOutPreamble$rstLCC), pixelID = 1:ncell(simOutPreamble$rstLCC))
 
 remapDT <- data.table::as.data.table(expand.grid(LCC2005 = c(NA_integer_, sort(uniqueLCCClasses)),
-                         NFtype = c(NA_integer_, 0:5)))
-remapDT[LCC2005 == 0, newLCC := NA_integer_]
-remapDT[is.na(NFtype) | NFtype == 5, newLCC := LCC2005]
-remapDT[LCC2005 == 4, newLCC := NA_integer_]
-remapDT[CC %in% 0:3, newLCC := LCC2005]
-remapDT[is.na(LCC2005) & CC %in% 0:2, newLCC := 99] ## reclassification needed
-remapDT[LCC2005 %in% P(sim)$treeClassesToReplace, newLCC := 99] ## reclassification needed
+                                                 nonForest))
+remapDT[LCC2005 == "NA", nonForest := 99]
+remapDT[LCC2005 == 0, nonForest := NA_integer_]
+remapDT[LCC2005 %in% c(1:15), nonForest := 0]
+remapDT[LCC2005 %in% c(37,38,39), nonForest := 1]
+remapDT[LCC2005 == 19, nonForest := 2]
+remapDT[LCC2005 %in% c(25,33,36), nonForest := 3]
+remapDT[LCC2005 %in% c(17,18,21,23,26:29), nonForest := 4]
+remapDT[LCC2005 %in% c(16,20,22), nonForest := 5]
+remapDT[LCC2005 %in% c(24,30:32), nonForest := 6]
+remapDT[LCC2005 %in% treeClassesToReplace, nonForest := 0]
+
+lcc05nonForest <- lcc05nonForest[remapDT, on = c("lcc" = "LCC2005")]
+
+lcc05nonForestRas <- raster::setValues(x =simOutPreamble$rstLCC, values = lcc05nonForest)
+
+message("Overlaying land cover maps...")
+LCClarge <- Cache(overlayLCCs,
+                      LCCs = list( LCC2005 = simOutPreamble$rstLCC),
+                      forestedList = list(nonForest = 0, LCC2005 = forestedLCCClasses),
+                      outputLayer = "LCC2005",
+                      remapTable = remapDT,
+                      classesToReplace = c(treeClassesToReplace, 99),
+                      availableERC_by_Sp = NULL)
+message("...done.")
+treePixelsLCC <- which(sim$LCClarge[] %in% P(sim)$treeClassesLCC)
+nonTreePixels <- which(sim$LCClarge[] %in% nontreeClassesLCC)
+
+sim$nonTreePixels <- nonTreePixels
+## Update rasterToMatch layer with all trees
+ml[[ml@metadata[ml@metadata$rasterToMatch == 1, ]$layerName]][sim$nonTreePixels] <- NA
+sim$rasterToMatch <- postProcess(rasterToMatch(ml), studyArea = sim$studyArea, filename2 = NULL)
 
 
 

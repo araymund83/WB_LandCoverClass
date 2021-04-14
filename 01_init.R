@@ -30,6 +30,7 @@ cloudFolderID <- "https://drive.google.com/drive/folders/1AuEcaGDQ20_QtLgTNEHAxX
 eventCaching <- c(".inputObjects", "init")
 fireEpoch <- c(1970, 2019)
 forestedLCCClasses <- c(1:15, 20, 32, 34:36)
+treeClassesToReplace <- c(34:35)
 #forestedLCCClasses <- c(1:15, 34:36)
 #forestedLCCClasses10 <- c(1,2,5,6,8,10,11,17)
 #forestedLCCClasses10 <- c(1:6,14,17)
