@@ -16,6 +16,3 @@
 [submodule "modules/WBI_vegReclass"]
 	path = modules/WBI_vegReclass
 	url = git@github.com:araymund83/WBI_vegReclass.git
-[submodule "bootRasterCombine"]
-	path = bootRasterCombine
-	url = git@github.com:ilaneshaw/bootRasterCombine.git
