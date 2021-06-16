@@ -10,7 +10,7 @@ cacheDB <- "sqlite" ## default cache backend
 machine <- Sys.info()[["nodename"]]
 user <- Sys.info()[["user"]]
 if (user == "araymundo") {
-  scratchDirRas <- reproducible::checkPath(file.path("/media/data/project/araymundo/scratch/WB_LandCoverClass"), create = TRUE)
+  scratchDirRas <- reproducible::checkPath(file.path("~/scratch/WB_LandCoverClass"), create = TRUE)
   if (grepl(pattern = "spades", x = machine)) {
     system(paste0("chmod -R 777 ", scratchDirRas), wait = TRUE) ## TODO: why? also, too open
   }
