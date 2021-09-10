@@ -3,6 +3,8 @@ do.call(SpaDES.core::setPaths, paths1)
 preambleObjects <- list()
 preambleParams <- list(
   WBI_preamble = list(
+    'studyArea' = "MB",
+    'bcr' = "bcr6MB",
     'studyAreaName' = studyAreaName
   )
 )
