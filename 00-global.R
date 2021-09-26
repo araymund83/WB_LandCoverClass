@@ -7,7 +7,7 @@ Require("PredictiveEcology/SpaDES.install")
 #installSpaDES() ## TODO: fix -- see SpaDES.install#7 and SpaDES.install#8
 
 studyarea <- "MB"
-bcr <- "bcr6"
+bcr <- "6"
 studyAreaName <- studyarea
 
 source("01_init.R")
