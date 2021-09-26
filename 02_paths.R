@@ -18,7 +18,7 @@ paths1 <- list(
 paths2 <- list(
   ## use same cachePath for all data-prep steps before dynamic simulation
   # cachePath = file.path("cache",studyarea, "dataPrepGIS","speciesLayers"),
-  cachePath = file.path("cache", "dataPrepGIS","speciesLayers"),
+  cachePath = file.path("cache"),
   modulePath = c("modules", "modules/scfm/modules"),
   inputPath = "inputs",
   outputPath = file.path("outputs")

@@ -68,8 +68,8 @@ sppLayersFile <- file.path(Paths$outputPath, paste0("biomassMaps2001_",
 
 biomassMaps2001 <- reproducible::Cache(simInitAndSpades,
                          times = list(start = 2001, end = 2001)
-                         , params = dataPrepParams20Biomass_speciesData01
-                         , modules = list( "", "Biomass_borealDataPrep")
+                         , params = dataPrepParams2001
+                         , modules = list( "Biomass_speciesData", "Biomass_borealDataPrep")
                          , objects = dataPrepObjects
                          , outputs = dataPrepOutputs2001
                          , paths = getPaths()

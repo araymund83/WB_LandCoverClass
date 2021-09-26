@@ -4,7 +4,7 @@ preambleObjects <- list()
 preambleParams <- list(
   WBI_preamble = list(
     'studyArea' = "MB",
-    'bcr' = "bcr6MB",
+    'bcr' = "bcr6",
     'studyAreaName' = studyAreaName
   )
 )
