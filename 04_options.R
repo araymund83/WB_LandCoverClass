@@ -53,5 +53,7 @@ options(
 
 Require::Require(c("googledrive", "httr"))
 httr::set_config(httr::config(http_version = 0))
-drive_auth(email = userEmail, use_oob = quickPlot::isRstudioServer())
+#drive_auth(email = userEmail, use_oob = quickPlot::isRstudioServer()) ## only use when you are in server
+drive_auth(email = araymund83@gmail.com)
 message(crayon::silver("Authenticating as: "), crayon::green(drive_user()$emailAddress))
+

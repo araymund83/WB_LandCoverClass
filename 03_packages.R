@@ -8,9 +8,9 @@ GHpkgs <- c(
   "achubaty/amc@development",
   "PredictiveEcology/pemisc@development",
   "PredictiveEcology/map@development",
-  "PredictiveEcology/SpaDES.experiment@development",
+ # "PredictiveEcology/SpaDES.experiment@development",
   "PredictiveEcology/quickPlot@development",
-  "PredictiveEcology/fireSenseUtils@development",
+#  "PredictiveEcology/fireSenseUtils@development",
  # "ianmseddy/LandR.CS",
   "PredictiveEcology/usefulFuns"
 )
@@ -45,3 +45,4 @@ Require::Require(CRANpkgs, require = FALSE)
 SpaDES.install::makeSureAllPackagesInstalled(paths2$modulePath)
 
 Require::Require(c("magrittr", "raster", "reproducible", "SpaDES.core", "sf"))
+
