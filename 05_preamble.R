@@ -20,4 +20,6 @@ simOutPreamble <- Cache(simInitAndSpades,
 
 dataPrepFile <- file.path(Paths$inputPath, paste0("simOutPreamble_", studyAreaName,".qs"))
 saveSimList(simOutPreamble, dataPrepFile)
+loadSimList('simOutPreamble_BC.qs', paths = paths1$inputPath)
 
+simOutPreamble<- qs::qread('./inputs/studyArea/simOutPreamble_BC.qs')

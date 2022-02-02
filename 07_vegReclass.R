@@ -1,13 +1,14 @@
 do.call(SpaDES.core::setPaths, paths2)
-biomassMaps2011SA<- qs::qread(file.path(getwd(),"inputs", "biomassMaps2011_Bc.qs"))
+biomassMaps2011SA<- qs::qread(file.path(getwd(),"inputs", "biomassMaps2011_BC.qs"))
+
 
 simObjects <- list(
   'cohortData' = as.data.table(biomassMaps2011SA$cohortData),
   'pixelGroupMap' = biomassMaps2011SA$pixelGroupMap,
-  'sppEquiv' = biomassMaps2011SA$sppEquiv,
+  'sppEquiv' = as.data.table(biomassMaps2011SA$sppEquiv),
   'sppEquivCol' =  simOutPreamble$sppEquivCol,
   'rstLCC' = simOutPreamble$rstLCC,
-  'studyarea' = simOutPreamble$studyAreaReporting
+  'studyArea' = simOutPreamble$studyAreaReporting
 )
 simParams <- list(
   WBI_vegReclass = list(
