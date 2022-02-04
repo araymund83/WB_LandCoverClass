@@ -9,42 +9,42 @@ RTM <- simOutPreamble$rasterToMatch
 sppEquivCol <- simOutPreamble$sppEquivCol
 
 # Load data ---------------------------------------------------------------
-SA_geodata <- Cache (prepInputs,
-                     destinationPath = paths1$inputPath,
-                     url = paste0("https://drive.google.com/file/d/",
-                                  "1uZ_JBIYWooGTxIPHThnRKCkXhnC9FoCy/view?usp=sharing"),
-                     targetFile = 'bcr6bc_wb.gdb',
-                     archive = "bcr6RIA_CASFRI.zip",
-                     alsoExtract = "similar",
-                     fun = "sf::st_read",
-                     filename2 = NULL)
+# SA_geodata <- Cache (prepInputs,
+#                      destinationPath = paths1$inputPath,
+#                      url = paste0("https://drive.google.com/file/d/",
+#                                   "1uZ_JBIYWooGTxIPHThnRKCkXhnC9FoCy/view?usp=sharing"),
+#                      targetFile = 'bcr6bc_wb.gdb',
+#                      archive = "bcr6RIA_CASFRI.zip",
+#                      alsoExtract = "similar",
+#                      fun = "sf::st_read",
+#                      filename2 = NULL)
 SA_data <- st_read('./inputs/bcr6bc_wb.gdb')
 CASFRI_sf<- st_as_sf(SA_data)
 
 SA_spp <- data.table::fread('./inputs/bcr6bc_wb_lyr.csv')
 
-SA_spp <- Cache(prepInputs,
-                destinationPath = asPath(paths1$inputPath),
-                url = paste0("https://drive.google.com/file/d/",
-                             "1uZ_JBIYWooGTxIPHThnRKCkXhnC9FoCy/view?usp=sharing"),
-                targetFile = "output/bcr6bc_wb_lyr.csv",
-                archive = "bcr6RIA_CASFRI.zip",
-                alsoExtract = "similar",
-                #fun = "data.table::fread",
-                filename2 = NULL)
+# SA_spp <- Cache(prepInputs,
+#                 destinationPath = asPath(paths1$inputPath),
+#                 url = paste0("https://drive.google.com/file/d/",
+#                              "1uZ_JBIYWooGTxIPHThnRKCkXhnC9FoCy/view?usp=sharing"),
+#                 targetFile = "output/bcr6bc_wb_lyr.csv",
+#                 archive = "bcr6RIA_CASFRI.zip",
+#                 alsoExtract = "similar",
+#                 #fun = "data.table::fread",
+#                 filename2 = NULL)
 
-
+## transform the name column to a factor one. It is important to use as.numeric
 CASFRI_sf$polyID <- as.numeric(as.factor(CASFRI_sf$cas_id))
 
-## transform the name column to a factor one. It is impor tant to use as numeric
+
 ## reproject to RTM crs
-CASFRI_sf <- st_transform(CASFRI_sf, crs(RTM))
+CASFRI_sf <- st_transform(CASFRI_sf, raster::crs(RTM))
 
 
 ## create the raster for the whole area
 CASFRIRas <- fasterize::fasterize(CASFRI_sf, RTM, field = "polyID")
 
-writeRaster(CASFRIRas, file= "./inputs/bcr6BCRasCasfri", format ="GTiff", overwrite = TRUE)
+#writeRaster(CASFRIRas, file= "./inputs/bcr6BCRasCasfri", format ="GTiff", overwrite = TRUE)
 
 loadCASFRIana <- function(CASFRIRas, attrFile, sppEquiv, sppEquivCol,
                           type = c("cover", "age")) {
@@ -62,7 +62,7 @@ loadCASFRIana <- function(CASFRIRas, attrFile, sppEquiv, sppEquivCol,
   CASFRISpp <- data.table::fread(file.path("inputs", "studyArea", "output", "bcr6bc_wb_lyr.csv"))
   CASFRIattr <- merge(CASFRIcas, CASFRISpp, by = "cas_id", all = TRUE)
   ## qcAtt <- as.data.table(qcAtt) ## convert to a data.table to be able to join
-  write.csv(CASFRIattr, file= file.path("inputs", "studyArea", "output", "bcr6bc_wb_att.csv"))
+  #write.csv(CASFRIattr, file= file.path("inputs", "studyArea", "output", "bcr6bc_wb_att.csv"))
 
   keep <- c ("cas_id", "stand_photo_year", "origin_upper", "origin_lower", "species_1",
              "species_per_1","species_2","species_per_2","species_3","species_per_3",
@@ -146,6 +146,8 @@ loadCASFRIana <- function(CASFRIRas, attrFile, sppEquiv, sppEquivCol,
 ##adding the new CASFRI  name   to sppEquiv table. There are other species, but this is a test
 CASFRI2 <- c('ABIE_LAS_###', 'BETU_PAP_###', 'LARI_LAR_###', 'PICE_ENG_###',
              'PICE_GLA_###', 'PICE_MAR_###', 'PINU_CON_###', 'POPU_TRE_###')
+
+spp <- sort(unique(CASFRIattrLong$value))
 
 sppEquiv$CASFRI2 <- CASFRI2
 
