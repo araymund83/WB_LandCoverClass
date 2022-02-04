@@ -4,9 +4,11 @@ library("sf")
 library("sp")
 
 ## set SppEquiv
-sppEquiv <- simOutPreamble$sppEquiv
+sppEquiv <- sppEquiv
 RTM <- simOutPreamble$rasterToMatch
 sppEquivCol <- simOutPreamble$sppEquivCol
+
+
 
 # Load data ---------------------------------------------------------------
 # SA_geodata <- Cache (prepInputs,
@@ -144,10 +146,30 @@ loadCASFRIana <- function(CASFRIRas, attrFile, sppEquiv, sppEquivCol,
 }
 
 ##adding the new CASFRI  name   to sppEquiv table. There are other species, but this is a test
-CASFRI2 <- c('ABIE_LAS_###', 'BETU_PAP_###', 'LARI_LAR_###', 'PICE_ENG_###',
-             'PICE_GLA_###', 'PICE_MAR_###', 'PINU_CON_###', 'POPU_TRE_###')
+# CASFRI2 <- c('ABIE_LAS_###', 'BETU_PAP_###', 'LARI_LAR_###', 'PICE_ENG_###',
+#              'PICE_GLA_###', 'PICE_MAR_###', 'PINU_CON_###', 'POPU_TRE_###')
 
-spp <- sort(unique(CASFRIattrLong$value))
+CASFRI2 <- c('ABIE_AMA_###', 'ABIE_BAL_###', 'ABIE_LAS_###', 'ABIE_SPP_###',
+             'BETU_NEO_###', 'BETU_OCC_###', 'BETU_PAP_###', 'BETU_PUB_###',
+             'BETU_SPP_###', 'CORN_NUTT_###','LARI_LAR_###', 'LARI_LYA_###',
+             'LARI_OCC_###', 'LARI_SIB_###', 'LARI_SPP_###', 'PICE_ENG_###',
+             'PICE_GLA_###', 'PICE_HYB_###', 'PICE_MAR_###',
+             'PICE_SIT_###', 'PICE_SPP_###', 'PINU_ALB_###', 'PINU_BAN_###',
+             'PINU_CON_###', 'PINU_RAD_###', 'PINU_RES_###', 'PINU_SPP_###',
+             'POPU_BAL_###', 'POPU_TRE_###', 'POPU_TRI_###', 'PSEU_MEN_###',
+             "SALI_BEB_###", 'SALI_SCO_###', 'SALI_SPP_###')
+
+
+
+  LandR<-        'Abie_ama', 'Abie_bal', 'Abie_las', 'Abie_sp', 'Betu_neo',
+                 'Betu_occ', 'Betu_pap',  'Betu_pub', 'Betu_spp', 'Corn_nut',
+                 'Lari lar', 'Lari lari', 'Lari lyal', 'Lari occi', 'Lari sibi',
+                 'Lari spp', 'Pice hybr', 'Pice engx', 'Pice enge', 'Pice glau',
+                 'Pice hybr', 'Pice mari', 'Pice sitc', 'Pice spp', 'Pinu albi',
+                 'Pinu bank', 'Pinu cont', 'Pinu radi', 'Pinu resi' , 'Pinu spp',
+                 'Popu balb', 'Popu trem', 'Pseu_menm', 'Pseu_meng', 'Sali bebb',
+                 'Sali scou', 'Sali spp', 'Thuj spp')
+
 
 sppEquiv$CASFRI2 <- CASFRI2
 
