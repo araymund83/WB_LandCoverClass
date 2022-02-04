@@ -7,7 +7,7 @@ simObjects <- list(
   'pixelGroupMap' = biomassMaps2011SA$pixelGroupMap,
   'sppEquiv' = as.data.table(biomassMaps2011SA$sppEquiv),
   'sppEquivCol' =  simOutPreamble$sppEquivCol,
-  'rstLCC' = simOutPreamble$rstLCC,
+  'rstLCC' = rstLCC, ## this object get created in WBI_preamble, but to the size of the studyArea
   'studyArea' = simOutPreamble$studyAreaReporting
 )
 simParams <- list(
@@ -17,19 +17,19 @@ simParams <- list(
   )
 )
 
-mySim <- simInit(params = simParams, modules = "WBI_vegReclass",
-                 objects = simObjects)
+# mySim <- simInit(params = simParams, modules = "WBI_vegReclass",
+#                  objects = simObjects)
+#
+# mySimOut <- spades(mySim)
 
-mySimOut <- spades(mySim)
+reclass <- Cache(simInitAndSpades,
+                    times = list(start = 0, end = 1),
+                    params = simParams,
+                    modules = c("WBI_vegReclass"),
+                    objects = simObjects,
+                    paths = paths2, ## TODO: I am not sure where it should be stored.
+                    userTags = c('WBI_vegReclass', studyAreaName)
+)
 
-# reclass <- Cache(simInitAndSpades,
-#                     times = list(start = 0, end = 1),
-#                     params = simParams,
-#                     modules = c("WBI_vegReclass"),
-#                     objects = simObjects,
-#                     paths = paths2, ## TODO: I am not sure where it should be stored.
-#                     userTags = c('WBI_vegReclass', studyAreaName)
-# )
-
-dataPrepFile <- file.path(Paths$inputPath, paste0("vegReclass_", studyAreaName,".qs"))
-saveSimList(vegReclass, dataPrepFile)
+dataPrepFile <- file.path(Paths$outputPath, paste0("vegReclass_", studyAreaName,".qs"))
+saveSimList(mySimOut, dataPrepFile)
