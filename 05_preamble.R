@@ -9,6 +9,12 @@ preambleParams <- list(
   )
 )
 
+mySim <- simInit(params = preambleParams, modules = "WBI_preamble",
+                 objects = preambleObjects)
+
+mySimOut <- spades(mySim)
+
+
 simOutPreamble <- Cache(simInitAndSpades,
                         times = list(start = 0, end = 1),
                         params = preambleParams,
