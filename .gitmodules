@@ -16,3 +16,6 @@
 [submodule "modules/WBI_vegReclass"]
 	path = modules/WBI_vegReclass
 	url = https://github.com/araymund83/WBI_vegReclass.git
+[submodule "Biomass_borealDataPrep"]
+	path = Biomass_borealDataPrep
+	url = https://github.com/PredictiveEcology/Biomass_borealDataPrep.git
