@@ -1,18 +1,6 @@
-[submodule "modules/Biomass_speciesData"]
-	path = modules/Biomass_speciesData
-	url = git@github.com:PredictiveEcology/Biomass_speciesData.git
-[submodule "modules/Biomass_borealDataPrep"]
-	path = modules/Biomass_borealDataPrep
-	url = git@github.com:PredictiveEcology/Biomass_borealDataPrep.git
-[submodule "modules/Biomass_core"]
-	path = modules/Biomass_core
-	url = git@github.com:PredictiveEcology/Biomass_core.git
 [submodule "modules/WBI_preamble"]
 	path = modules/WBI_preamble
 	url = https://github.com/araymund83/WBI_preamble.git
 [submodule "modules/WBI_vegReclass"]
 	path = modules/WBI_vegReclass
 	url = https://github.com/araymund83/WBI_vegReclass.git
-[submodule "Biomass_borealDataPrep"]
-	path = Biomass_borealDataPrep
-	url = https://github.com/PredictiveEcology/Biomass_borealDataPrep.git
