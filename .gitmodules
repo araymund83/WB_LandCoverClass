@@ -7,9 +7,6 @@
 [submodule "modules/Biomass_core"]
 	path = modules/Biomass_core
 	url = git@github.com:PredictiveEcology/Biomass_core.git
-[submodule "modules/scfm"]
-	path = modules/scfm
-	url = git@github.com:PredictiveEcology/scfm.git
 [submodule "modules/WBI_preamble"]
 	path = modules/WBI_preamble
 	url = https://github.com/araymund83/WBI_preamble.git
