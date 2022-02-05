@@ -7,6 +7,3 @@
 [submodule "Biomass_speciesData"]
 	path = modules/Biomass_speciesData
 	url = https://github.com/PredictiveEcology/Biomass_speciesData.git
-[submodule "Biomass_borealDataPrep"]
-	path = Biomass_borealDataPrep
-	url = https://github.com/PredictiveEcology/Biomass_borealDataPrep.git
