@@ -4,3 +4,6 @@
 [submodule "modules/WBI_vegReclass"]
 	path = modules/WBI_vegReclass
 	url = https://github.com/araymund83/WBI_vegReclass.git
+[submodule "Biomass_speciesData"]
+	path = modules/Biomass_speciesData
+	url = https://github.com/PredictiveEcology/Biomass_speciesData.git
